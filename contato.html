@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Manity Technology</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.png" alt="logo manity Technology"></div>
+                    <span>Manity Technology</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="sobre.html">Sobre Nós</a></li>
+                    <li><a href="projetos.html">Projetos</a></li>
+                    <li><a href="contato.html" class="active">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="contato.html" class="btn-primary">Entre em Contato</a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="container">
+                <h1>Entre em Contato</h1>
+                <p class="contact-description">Tem um projeto em mente que ajude as pessoas ao redor? Fale conosco!</p>
+            </div>
+            <!-- Animação de fundo removida conforme solicitado -->
+        </section>
+
+        <section class="contact-content">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-form-container">
+                        <h2>Envie sua Mensagem</h2>
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Nome</label>
+                                    <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname">Sobrenome</label>
+                                    <input type="text" id="lastname" name="lastname" placeholder="Seu sobrenome" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="company">Empresa (opcional)</label>
+                                <input type="text" id="company" name="company" placeholder="Nome da sua empresa">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Assunto</label>
+                                <input type="text" id="subject" name="subject" placeholder="Desenvolvimento de sistema, app, site..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Mensagem</label>
+                                <textarea id="message" name="message" placeholder="Descreva seu projeto: funcionalidades, prazo, orçamento estimado..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary btn-full">Enviar Mensagem</button>
+                            <p class="form-disclaimer">Responderemos sua mensagem em até 24 horas úteis.</p>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h2>Vamos Conversar</h2>
+                        <p>Estamos prontos para transformar sua ideia em um projeto real. Entre em contato conosco para discutir seu próximo desenvolvimento e receber uma proposta personalizada.</p>
+                        
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Email</h3>
+                                    <p>contato@manity.tech</p>
+                                    <span>Envie sua mensagem que responderemos em 24h</span>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Telefone</h3>
+                                    <p>+55 (11) 99999-9999</p>
+                                    <span>Atendimento de segunda a sexta, 9h às 18h</span>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>Localização</h3>
+                                    <p>Brasil</p>
+                                    <span>Atendemos clientes em todo o território nacional</span>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="fab fa-whatsapp"></i>
+                                </div>
+                                <div class="method-details">
+                                    <h3>WhatsApp</h3>
+                                    <p>+55 (11) 99999-9999</p>
+                                    <span>Atendimento rápido para dúvidas e orçamentos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq">
+            <div class="container">
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>Quanto tempo leva para desenvolver um projeto?</h3>
+                        <p>O tempo de desenvolvimento varia de acordo com a complexidade do projeto. Aplicações simples podem levar de 4 a 8 semanas, enquanto sistemas mais complexos podem levar de 3 a 6 meses.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Como funciona o processo de desenvolvimento?</h3>
+                        <p>Nosso processo inclui levantamento de requisitos, prototipação, desenvolvimento, testes e implementação. Trabalhamos de forma ágil, com entregas incrementais e feedback constante.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Quais tecnologias vocês utilizam?</h3>
+                        <p>Utilizamos tecnologias modernas como React, Angular, Vue.js para frontend; Node.js, Python, Java para backend; e React Native, Flutter para desenvolvimento mobile.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Vocês oferecem suporte após o lançamento?</h3>
+                        <p>Sim, oferecemos planos de suporte e manutenção para garantir que sua aplicação continue funcionando perfeitamente e receba atualizações quando necessário.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.png" alt="logo manity Technology"></div>
+                    <span>Manity Technology</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navegação</h4>
+                        <ul>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="sobre.html">Sobre Nós</a></li>
+                            <li><a href="projetos.html">Projetos</a></li>
+                            <li><a href="contato.html">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contato</h4>
+                        <ul>
+                            <li><i class="fas fa-envelope"></i> contato@manity.tech</li>
+                            <li><i class="fas fa-phone"></i> +55 (11) 99999-9999</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Brasil</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Redes Sociais</h4>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Manity Technology. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

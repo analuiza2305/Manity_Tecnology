@@ -374,8 +374,9 @@ window.addEventListener('load', function() {
     addModernEffects();
     addDepthEffect();
 });
+
 function initLogoRotation() {
-    const logo = document.querySelector('.logo'); 
+    const logo = document.querySelector('.logo');
     const logoIcon = document.querySelector('.logo-icon img');
     if (!logo || !logoIcon) return;
 
@@ -386,33 +387,36 @@ function initLogoRotation() {
 
     function animate() {
         if (isHovering) {
+            // Mantém velocidade constante quando o mouse está em cima
             spinSpeed = 5;
         } else {
-            spinSpeed *= 0.92;
+            // Quando o mouse sai, desacelera suavemente, mas NÃO reseta
+            spinSpeed *= 0.95;
             if (Math.abs(spinSpeed) < 0.05) {
-                const remainder = currentRotation % 360;
-                if (remainder !== 0) {
-                    currentRotation -= remainder;
-                }
-                spinSpeed = 0;
+                spinSpeed = 0; // Para a rotação quando quase zerar
             }
         }
 
-        if (spinSpeed !== 0) {
-            currentRotation += spinSpeed;
-            logoIcon.style.transform = `rotate(${currentRotation}deg)`;
+        // Atualiza o ângulo da rotação
+        currentRotation += spinSpeed;
+        logoIcon.style.transform = `rotate(${currentRotation}deg)`;
+
+        // Continua animando enquanto houver rotação ou o mouse estiver em cima
+        if (spinSpeed !== 0 || isHovering) {
             animationFrame = requestAnimationFrame(animate);
         } else {
             cancelAnimationFrame(animationFrame);
         }
     }
 
+    // Quando passa o mouse, começa a girar
     logo.addEventListener('mouseenter', () => {
         isHovering = true;
         cancelAnimationFrame(animationFrame);
         animationFrame = requestAnimationFrame(animate);
     });
 
+    // Quando tira o mouse, desacelera suavemente e para
     logo.addEventListener('mouseleave', () => {
         isHovering = false;
         cancelAnimationFrame(animationFrame);

@@ -343,7 +343,7 @@ function addModernEffects() {
 
 // Adicionar efeito de profundidade aos cards
 function addDepthEffect() {
-    const cards = document.querySelectorAll('.service-card, .value-card,');
+    const cards = document.querySelectorAll('.service-card, .value-card');
     
     cards.forEach(card => {
         card.addEventListener('mousemove', function(e) {

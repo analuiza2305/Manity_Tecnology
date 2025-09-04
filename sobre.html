@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós - Manity Technology</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/image_copy-removebg-preview.png" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="img/image_copy-removebg-preview.png" sizes="512x512">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.150.0/examples/jsm/"
+  }
+}
+</script>
+
 </head>
+
 <body class="light-mode">
     <header>
         <div class="container">
             <div class="logo">
                 <a href="index.html">
-                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.png" alt="logo manity Technology"></div>
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.png" alt="logo manity Technology">
+                    </div>
                     <span>Manity Technology</span>
                 </a>
             </div>
@@ -42,9 +57,9 @@
         <section class="about-hero">
             <div class="container">
                 <h1>Sobre Nós</h1>
-                <p class="about-description">A Manity Technology é uma empresa focada em desenvolver soluções tecnológicas inovadoras que conectam pessoas.</p>
+                <p class="about-description">A Manity Technology é uma empresa focada em desenvolver soluções
+                    tecnológicas inovadoras que conectam pessoas.</p>
             </div>
-            <!-- Animação de fundo removida conforme solicitado -->
         </section>
 
         <section class="about-content">
@@ -52,8 +67,12 @@
                 <div class="about-grid">
                     <div class="about-text">
                         <h2>Nossa Missão: Tecnologia que Conecta</h2>
-                        <p>Na Manity Technology, acreditamos que a tecnologia deve aproximar pessoas e apoiar causas humanitárias. Desenvolvemos aplicações web e mobile que realmente fazem a diferença para nossos clientes.</p>
-                        <p>Nossa equipe é especializada em tecnologias como HTML, CSS, JS, React.js, PHP, entre outros. Nosso maior objetivo como equipe e empresa é trazer soluções eficientes e que ajudem no dia a dia das pessoas.</p>
+                        <p>Na Manity Technology, acreditamos que a tecnologia deve aproximar pessoas e apoiar causas
+                            humanitárias. Desenvolvemos aplicações web e mobile que realmente fazem a diferença para
+                            nossos clientes.</p>
+                        <p>Nossa equipe é especializada em tecnologias como HTML, CSS, JS, React.js, PHP, entre outros.
+                            Nosso maior objetivo como equipe e empresa é trazer soluções eficientes e que ajudem no dia
+                            a dia das pessoas.</p>
                     </div>
                     <div class="about-image">
                         <div class="image-container">
@@ -101,6 +120,28 @@
             </div>
         </section>
 
+        <section class="ods-section">
+            <div class="container">
+                <div class="about-grid">
+                    <!-- Modelo 3D -->
+                    <div class="about-image">
+                        <div class="innovation-image" id="ods5-container" data-model="./models/ods5.ply"></div>
+                    </div>
+
+                    <!-- Texto -->
+                    <div class="about-text">
+                        <h2>A ODS escolhida</h2>
+                        <p>
+                            A Manity Technology escolheu a <strong>ODS 5 - Igualdade de Gênero</strong>
+                            como base do nosso projeto. Essa decisão reflete nosso compromisso em
+                            promover a inclusão e criar soluções que reduzam desigualdades,
+                            impulsionando transformações sociais através da tecnologia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="team">
             <div class="container">
                 <h2 class="section-title">Nossa Equipe</h2>
@@ -114,7 +155,7 @@
                     </div>
                     <div class="team-member">
                         <div class="member-image">
-                           <img src="./img/emily-foto.jpg" alt="">
+                            <img src="./img/emily-foto.jpg" alt="">
                         </div>
                         <h3>Emily Rodrigues</h3>
                         <p>Líder e back-end</p>
@@ -135,7 +176,7 @@
                     </div>
                     <div class="team-member">
                         <div class="member-image">
-                           <img src="./img/vinicius-foto.jpg" alt="">
+                            <img src="./img/vinicius-foto.jpg" alt="">
                         </div>
                         <h3>Vinicius Queiroz</h3>
                         <p>Analista de Sistemas e Banco de dados</p>
@@ -149,7 +190,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.png" alt="logo manity Technology"></div>
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.png" alt="logo manity Technology">
+                    </div>
                     <span>Manity Technology</span>
                 </div>
                 <div class="footer-links">
@@ -187,7 +229,9 @@
         </div>
     </footer>
 
+    <script type="module" src="js/models.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

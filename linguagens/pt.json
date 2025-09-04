@@ -1,0 +1,120 @@
+{
+    "header": {
+        "nav_home": "Início",
+        "nav_about": "Sobre Nós",
+        "nav_projects": "Projetos",
+        "nav_contact": "Contato",
+        "btn_contact": "Entre em Contato"
+    },
+    "hero": {
+        "title": "Tecnologia que une, inclusão que transforma",
+        "desc": "Na Manity Technology, desenvolvemos soluções tecnológicas que ajudem e apoiem causas humanitárias.",
+        "btn_project": "Veja nosso projeto",
+        "btn_about": "Sobre Nós"
+    },
+    "services": {
+        "title": "Nossos Serviços",
+        "items": [
+            {
+                "title": "Desenvolvimento Web",
+                "desc": "Criamos sites e aplicações web modernas, responsivas e otimizadas para SEO."
+            },
+            {
+                "title": "Aplicativos Mobile",
+                "desc": "Desenvolvemos aplicativos nativos e híbridos para iOS e Android."
+            },
+            {
+                "title": "Banco de Dados Confiável",
+                "desc": "Na Manity, usamos bancos que armazenam seus dados de forma confiável."
+            },
+            {
+                "title": "Computação em Nuvem",
+                "desc": "Infraestrutura escalável e segura."
+            }
+        ]
+    },
+    "footer": {
+        "nav": "Navegação",
+        "contact": "Contato",
+        "social": "Redes Sociais",
+        "rights": "© 2025 Manity Technology. Todos os direitos reservados."
+    },
+    "about": {
+        "hero_title": "Sobre Nós",
+        "hero_desc": "A Manity Technology é uma empresa focada em desenvolver soluções tecnológicas inovadoras que conectam pessoas.",
+        "mission_title": "Nossa Missão: Tecnologia que Conecta",
+        "mission_paragraph1": "Na Manity Technology, acreditamos que a tecnologia deve aproximar pessoas e apoiar causas humanitárias. Desenvolvemos aplicações web e mobile que realmente fazem a diferença para nossos clientes.",
+        "mission_paragraph2": "Nossa equipe é especializada em tecnologias como HTML, CSS, JS, React.js, PHP, entre outros. Nosso maior objetivo como equipe e empresa é trazer soluções eficientes e que ajudem no dia a dia das pessoas.",
+        "values_title": "Nossos Valores",
+        "values": [
+            {
+                "title": "Inovação",
+                "desc": "Buscamos constantemente novas tecnologias e abordagens para resolver problemas complexos."
+            },
+            {
+                "title": "Colaboração",
+                "desc": "Trabalhamos em parceria como grupo e principalmente visando a solução de problemas."
+            },
+            {
+                "title": "Excelência",
+                "desc": "Comprometidos com a qualidade em cada linha de código e em cada interação com o cliente."
+            },
+            {
+                "title": "Paixão",
+                "desc": "Amamos o que fazemos e isso se reflete na dedicação e no resultado final de cada projeto."
+            }
+        ],
+        "ods_title": "A ODS escolhida",
+        "ods_desc": "A Manity Technology escolheu a ODS 5 - Igualdade de Gênero como base do nosso projeto. Essa decisão reflete nosso compromisso em promover a inclusão e criar soluções que reduzam desigualdades, impulsionando transformações sociais através da tecnologia.",
+        "team_title": "Nossa Equipe"
+    },
+    "projects": {
+        "hero_title": "Nossos Projetos",
+        "hero_desc": "Veja nosso principal projeto, que estamos trabalhando no TCC!",
+        "main_project_title": "Elo Materno",
+        "main_project_status": "Em andamento",
+        "main_project_desc": "O projeto consiste em um hub digital voltado para mães solo e pais em situação de vulnerabilidade, com o objetivo de oferecer suporte, visibilidade e conexão com recursos que possam facilitar sua vida cotidiana. A plataforma busca ser um espaço seguro, acessível e prático, permitindo que os usuários publiquem necessidades, compartilhem experiências, encontrem oportunidades de apoio (como doações, serviços comunitários, cursos ou até empregos) e construam uma rede de solidariedade.",
+        "main_project_btn": "Saiba Mais",
+        "cta_title": "Tem um projeto em mente?",
+        "cta_desc": "Vamos transformar sua ideia em realidade digital. Entre em contato conosco para uma consulta gratuita.",
+        "cta_btn": "Fale Conosco"
+    },
+    "contact": {
+        "hero_title": "Entre em Contato",
+        "hero_desc": "Tem um projeto em mente que ajude as pessoas ao redor? Fale conosco!",
+        "form_title": "Envie sua Mensagem",
+        "form_name": "Nome",
+        "form_lastname": "Sobrenome",
+        "form_email": "Email",
+        "form_company": "Empresa (opcional)",
+        "form_subject": "Assunto",
+        "form_message": "Mensagem",
+        "form_placeholder_name": "Seu nome",
+        "form_placeholder_lastname": "Seu sobrenome",
+        "form_placeholder_email": "seu@email.com",
+        "form_placeholder_company": "Nome da sua empresa",
+        "form_placeholder_subject": "Desenvolvimento de sistema, app, site...",
+        "form_placeholder_message": "Descreva seu projeto: funcionalidades, prazo, orçamento estimado...",
+        "form_btn": "Enviar Mensagem",
+        "form_disclaimer": "Responderemos sua mensagem em até 24 horas úteis.",
+        "info_title": "Vamos Conversar",
+        "info_desc": "Estamos prontos para transformar sua ideia em um projeto real. Entre em contato conosco para discutir seu próximo desenvolvimento e receber uma proposta personalizada.",
+        "method_email": "Email",
+        "method_email_note": "Envie sua mensagem que responderemos em 24h",
+        "method_phone": "Telefone",
+        "method_phone_note": "Atendimento de segunda a sexta, 9h às 18h",
+        "method_location": "Localização",
+        "method_location_note": "Atendemos clientes em todo o território nacional",
+        "method_whatsapp": "WhatsApp",
+        "method_whatsapp_note": "Atendimento rápido para dúvidas e orçamentos",
+        "faq_title": "Perguntas Frequentes",
+        "faq_q1": "Quanto tempo leva para desenvolver um projeto?",
+        "faq_a1": "O tempo de desenvolvimento varia de acordo com a complexidade do projeto. Aplicações simples podem levar de 4 a 8 semanas, enquanto sistemas mais complexos podem levar de 3 a 6 meses.",
+        "faq_q2": "Como funciona o processo de desenvolvimento?",
+        "faq_a2": "Nosso processo inclui levantamento de requisitos, prototipação, desenvolvimento, testes e implementação. Trabalhamos de forma ágil, com entregas incrementais e feedback constante.",
+        "faq_q3": "Quais tecnologias vocês utilizam?",
+        "faq_a3": "Utilizamos tecnologias modernas como React, Angular, Vue.js para frontend; Node.js, Python, Java para backend; e React Native, Flutter para desenvolvimento mobile.",
+        "faq_q4": "Vocês oferecem suporte após o lançamento?",
+        "faq_a4": "Sim, oferecemos planos de suporte e manutenção para garantir que sua aplicação continue funcionando perfeitamente e receba atualizações quando necessário."
+    }
+}

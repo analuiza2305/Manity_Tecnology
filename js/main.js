@@ -1,5 +1,5 @@
 // Esperar que o DOM seja completamente carregado
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Inicializar todas as funcionalidades
     initThemeToggle();
     initMobileMenu();
@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimations();
     initContactForm();
     initLogoRotation();
+    initLanguageSelector();
 });
 
 // Alternar entre modo claro e escuro
@@ -14,22 +15,26 @@ function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     const icon = themeToggle.querySelector('i');
-    
-    // Verificar se há uma preferência salva no localStorage
-    const savedTheme = localStorage.getItem('theme');
+
+    let savedTheme = localStorage.getItem('theme') || 'light';
+
+    // Normaliza body: só mantém a classe correspondente
+    body.classList.remove('light-mode', 'dark-mode');
+    body.classList.add(savedTheme + "-mode");
+
+    // Atualiza ícone
     if (savedTheme === 'dark') {
-        body.classList.remove('light-mode');
-        body.classList.add('dark-mode');
         icon.classList.remove('fa-moon');
         icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
     }
-    
-    themeToggle.addEventListener('click', function() {
-        // Alternar classes no body
+
+    themeToggle.addEventListener('click', function () {
         body.classList.toggle('dark-mode');
         body.classList.toggle('light-mode');
-        
-        // Alternar ícone
+
         if (body.classList.contains('dark-mode')) {
             icon.classList.remove('fa-moon');
             icon.classList.add('fa-sun');
@@ -42,21 +47,17 @@ function initThemeToggle() {
     });
 }
 
+
 // Menu mobile
 function initMobileMenu() {
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('nav');
-    
+
     if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', function() {
-            // Alternar classe ativa no botão
+        mobileMenuToggle.addEventListener('click', function () {
             this.classList.toggle('active');
-            
-            // Mostrar/esconder menu
             if (nav) {
                 nav.classList.toggle('active');
-                
-                // Animar as barras do botão hamburger
                 const spans = this.querySelectorAll('span');
                 if (this.classList.contains('active')) {
                     spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
@@ -77,105 +78,23 @@ function initParticles() {
     if (document.getElementById('particles-js')) {
         particlesJS('particles-js', {
             particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#00b837ff'
-                },
-                shape: {
-                    type: 'circle',
-                    stroke: {
-                        width: 0,
-                        color: '#000000'
-                    },
-                    polygon: {
-                        nb_sides: 5
-                    }
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false,
-                    anim: {
-                        enable: false,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: {
-                        enable: false,
-                        speed: 40,
-                        size_min: 0.1,
-                        sync: false
-                    }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#00b837ff',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
-                }
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#00b837ff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' } },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#00b837ff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2 }
             },
             interactivity: {
                 detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'grab'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                },
+                events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' }, resize: true },
                 modes: {
-                    grab: {
-                        distance: 140,
-                        line_linked: {
-                            opacity: 1
-                        }
-                    },
-                    bubble: {
-                        distance: 400,
-                        size: 40,
-                        duration: 2,
-                        opacity: 8,
-                        speed: 3
-                    },
-                    repulse: {
-                        distance: 200,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 4
-                    },
-                    remove: {
-                        particles_nb: 2
-                    }
+                    grab: { distance: 140, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 0.4 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
                 }
             },
             retina_detect: true
@@ -185,21 +104,15 @@ function initParticles() {
 
 // Animações ao rolar a página
 function initScrollAnimations() {
-    // Selecionar todos os elementos que devem ser animados
     const animatedElements = document.querySelectorAll(
         '.service-card, .value-card, .team-member, .faq-item, .about-image, .about-text'
     );
-    
-    // Função para verificar se um elemento está visível na viewport
+
     function isElementInViewport(el) {
         const rect = el.getBoundingClientRect();
-        return (
-            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
-            rect.bottom >= 0
-        );
+        return rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 && rect.bottom >= 0;
     }
-    
-    // Função para adicionar classe de animação aos elementos visíveis
+
     function handleScroll() {
         animatedElements.forEach(element => {
             if (isElementInViewport(element)) {
@@ -207,76 +120,44 @@ function initScrollAnimations() {
             }
         });
     }
-    
-    // Adicionar classe inicial para esconder os elementos
-    animatedElements.forEach(element => {
-        element.classList.add('hidden');
-    });
-    
-    // Verificar elementos visíveis no carregamento inicial
+
+    animatedElements.forEach(element => element.classList.add('hidden'));
     handleScroll();
-    
-    // Adicionar evento de scroll
     window.addEventListener('scroll', handleScroll);
 }
 
 // Formulário de contato
 function initContactForm() {
     const contactForm = document.getElementById('contact-form');
-    
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
-            // Aqui você adicionaria a lógica para enviar o formulário via AJAX
-            // Por enquanto, vamos apenas simular um envio bem-sucedido
-            
-            // Obter os dados do formulário
             const formData = new FormData(contactForm);
             const formValues = {};
-            
-            for (let [key, value] of formData.entries()) {
-                formValues[key] = value;
-            }
-            
-            // Simular envio (aqui você substituiria por uma chamada AJAX real)
+            for (let [key, value] of formData.entries()) formValues[key] = value;
+
             setTimeout(() => {
-                // Exibir mensagem de sucesso
                 const successMessage = document.createElement('div');
                 successMessage.className = 'form-success';
                 successMessage.innerHTML = '<i class="fas fa-check-circle"></i> Mensagem enviada com sucesso! Entraremos em contato em breve.';
-                
-                // Limpar formulário e adicionar mensagem
                 contactForm.reset();
                 contactForm.appendChild(successMessage);
-                
-                // Remover mensagem após alguns segundos
-                setTimeout(() => {
-                    successMessage.remove();
-                }, 5000);
+                setTimeout(() => successMessage.remove(), 5000);
             }, 1000);
         });
     }
 }
 
-// Adicionar efeitos de partículas flutuantes decorativas
+// Partículas flutuantes decorativas
 function createFloatingParticles() {
     const container = document.querySelector('main');
     if (!container) return;
-    
-    // Criar partículas decorativas
     for (let i = 0; i < 20; i++) {
         const particle = document.createElement('div');
         particle.className = 'floating-particle';
-        
-        // Posição aleatória
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
-        
-        // Tamanho aleatório
         const size = Math.random() * 10 + 5;
-        
-        // Estilo
         particle.style.cssText = `
             position: absolute;
             left: ${posX}%;
@@ -289,15 +170,13 @@ function createFloatingParticles() {
             z-index: 1;
             animation: float ${Math.random() * 10 + 10}s infinite ease-in-out;
         `;
-        
         container.appendChild(particle);
     }
 }
 
-// Adicionar efeito de gradiente animado nos textos principais
+// Gradiente animado em textos
 function initGradientText() {
     const gradientTexts = document.querySelectorAll('.highlight');
-    
     gradientTexts.forEach(text => {
         text.style.background = 'linear-gradient(45deg, #00b894, #0984e3)';
         text.style.webkitBackgroundClip = 'text';
@@ -308,73 +187,60 @@ function initGradientText() {
     });
 }
 
-// Adicionar efeito de scroll suave para links internos
+// Scroll suave
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
-        
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 100,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: targetElement.offsetTop - 100, behavior: 'smooth' });
         }
     });
 });
 
-// Adicionar efeitos de sombra e blur modernos
+// Sombras modernas
 function addModernEffects() {
-    // Adicionar efeito de sombra nos cards ao passar o mouse
     const cards = document.querySelectorAll('.service-card, .value-card, .team-member');
-    
     cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1), 0 8px 15px rgba(0, 184, 148, 0.2)';
         });
-        
-        card.addEventListener('mouseleave', function() {
+        card.addEventListener('mouseleave', function () {
             this.style.boxShadow = '';
         });
     });
 }
 
-// Adicionar efeito de profundidade aos cards
+// Profundidade nos cards
 function addDepthEffect() {
     const cards = document.querySelectorAll('.service-card, .value-card');
-    
     cards.forEach(card => {
-        card.addEventListener('mousemove', function(e) {
+        card.addEventListener('mousemove', function (e) {
             const rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
             const angleX = (y - centerY) / 20;
             const angleY = (centerX - x) / 20;
-            
             this.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.05, 1.05, 1.05)`;
         });
-        
-        card.addEventListener('mouseleave', function() {
+        card.addEventListener('mouseleave', function () {
             this.style.transform = '';
         });
     });
 }
 
-// Chamar funções adicionais após o carregamento do DOM
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     createFloatingParticles();
     initGradientText();
     addModernEffects();
     addDepthEffect();
 });
 
+// Rotação da logo
 function initLogoRotation() {
     const logo = document.querySelector('.logo');
     const logoIcon = document.querySelector('.logo-icon img');
@@ -387,21 +253,13 @@ function initLogoRotation() {
 
     function animate() {
         if (isHovering) {
-            // Mantém velocidade constante quando o mouse está em cima
             spinSpeed = 5;
         } else {
-            // Quando o mouse sai, desacelera suavemente, mas NÃO reseta
             spinSpeed *= 0.95;
-            if (Math.abs(spinSpeed) < 0.05) {
-                spinSpeed = 0; // Para a rotação quando quase zerar
-            }
+            if (Math.abs(spinSpeed) < 0.05) spinSpeed = 0;
         }
-
-        // Atualiza o ângulo da rotação
         currentRotation += spinSpeed;
         logoIcon.style.transform = `rotate(${currentRotation}deg)`;
-
-        // Continua animando enquanto houver rotação ou o mouse estiver em cima
         if (spinSpeed !== 0 || isHovering) {
             animationFrame = requestAnimationFrame(animate);
         } else {
@@ -409,17 +267,232 @@ function initLogoRotation() {
         }
     }
 
-    // Quando passa o mouse, começa a girar
     logo.addEventListener('mouseenter', () => {
         isHovering = true;
         cancelAnimationFrame(animationFrame);
         animationFrame = requestAnimationFrame(animate);
     });
-
-    // Quando tira o mouse, desacelera suavemente e para
     logo.addEventListener('mouseleave', () => {
         isHovering = false;
         cancelAnimationFrame(animationFrame);
         animationFrame = requestAnimationFrame(animate);
     });
+}
+
+// Seleção de idioma
+function initLanguageSelector() {
+    const toggleBtn = document.getElementById('language-toggle');
+    const flag = toggleBtn.querySelector('.flag-icon');
+    const menu = document.getElementById('language-menu');
+
+    let currentLang = localStorage.getItem('lang') || 'pt';
+
+    const langs = {
+        pt: { label: 'Português', flag: 'img/bandeiras/br-flag.svg' },
+        en: { label: 'English', flag: 'img/bandeiras/us-flag.svg' },
+        es: { label: 'Español', flag: 'img/bandeiras/es-flag.svg' }
+    };
+
+    function updateUI(lang) {
+        if (!langs[lang]) return;
+        flag.src = langs[lang].flag;
+    }
+
+    updateUI(currentLang);
+
+    toggleBtn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+
+    menu.querySelectorAll('li').forEach(item => {
+        item.addEventListener('click', () => {
+            const lang = item.getAttribute('data-lang');
+            if (!lang) return;
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            updateUI(lang);
+            menu.classList.add('hidden');
+            applyTranslation(lang);
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.language-selector')) {
+            menu.classList.add('hidden');
+        }
+    });
+
+    applyTranslation(currentLang);
+}
+
+// Função de animação de máquina de escrever
+function typeWriter(element, newText, speed = 25) {
+    if (!element) return;
+
+    // Se for input/textarea com placeholder
+    if ((element.tagName === "INPUT" || element.tagName === "TEXTAREA") && element.placeholder !== undefined) {
+        let placeholder = "";
+        element.placeholder = "";
+        [...newText].forEach((char, index) => {
+            setTimeout(() => {
+                placeholder += char;
+                element.placeholder = placeholder;
+            }, index * speed);
+        });
+        return;
+    }
+
+    // Para textos normais
+    element.textContent = "";
+    [...newText].forEach((char, index) => {
+        setTimeout(() => {
+            element.textContent += char;
+        }, index * speed);
+    });
+}
+// Carregar traduções externas
+async function applyTranslation(lang) {
+    try {
+        const res = await fetch(`linguagens/${lang}.json`);
+        const t = await res.json();
+
+        // Header
+        typeWriter(document.querySelector('nav ul li a[href="index.html"]'), t.header.nav_home);
+        typeWriter(document.querySelector('nav ul li a[href="sobre.html"]'), t.header.nav_about);
+        typeWriter(document.querySelector('nav ul li a[href="projetos.html"]'), t.header.nav_projects);
+        typeWriter(document.querySelector('nav ul li a[href="contato.html"]'), t.header.nav_contact);
+        typeWriter(document.querySelector('.btn-primary[href="contato.html"]'), t.header.btn_contact);
+
+        // Footer
+        typeWriter(document.querySelectorAll('.footer-column h4')[0], t.footer.nav);
+        typeWriter(document.querySelectorAll('.footer-column h4')[1], t.footer.contact);
+        typeWriter(document.querySelectorAll('.footer-column h4')[2], t.footer.social);
+        typeWriter(document.querySelector('.footer-bottom p'), t.footer.rights);
+
+        // 🔎 Verificar qual página está aberta
+        const path = window.location.pathname;
+
+        // Página inicial (index.html)
+        if (path.includes("index.html") || path.endsWith("/")) {
+            typeWriter(document.querySelector('.hero h1'), t.hero.title, 35);
+            typeWriter(document.querySelector('.hero p'), t.hero.desc, 20);
+            typeWriter(document.querySelector('.hero-buttons a.btn-primary'), t.hero.btn_project);
+            typeWriter(document.querySelector('.hero-buttons a.btn-secondary'), t.hero.btn_about);
+
+            typeWriter(document.querySelector('.services .section-title'), t.services.title);
+            const serviceTitles = document.querySelectorAll('.service-card h3');
+            const serviceDescs = document.querySelectorAll('.service-card p');
+            t.services.items.forEach((item, i) => {
+                if (serviceTitles[i]) typeWriter(serviceTitles[i], item.title);
+                if (serviceDescs[i]) typeWriter(serviceDescs[i], item.desc, 15);
+            });
+        }
+
+        // Página sobre.html
+        if (path.includes("sobre.html")) {
+            typeWriter(document.querySelector('.about-hero h1'), t.about.hero_title, 35);
+            typeWriter(document.querySelector('.about-hero p'), t.about.hero_desc, 20);
+
+            typeWriter(document.querySelector('.about-text h2'), t.about.mission_title);
+            const missionParas = document.querySelectorAll('.about-text p');
+            if (missionParas[0]) typeWriter(missionParas[0], t.about.mission_paragraph1, 15);
+            if (missionParas[1]) typeWriter(missionParas[1], t.about.mission_paragraph2, 15);
+
+            typeWriter(document.querySelector('.values .section-title'), t.about.values_title);
+            const valueTitles = document.querySelectorAll('.value-card h3');
+            const valueDescs = document.querySelectorAll('.value-card p');
+            t.about.values.forEach((item, i) => {
+                if (valueTitles[i]) typeWriter(valueTitles[i], item.title);
+                if (valueDescs[i]) typeWriter(valueDescs[i], item.desc, 15);
+            });
+
+            typeWriter(document.querySelector('.ods-section h2'), t.about.ods_title);
+            typeWriter(document.querySelector('.ods-section p'), t.about.ods_desc, 15);
+
+            typeWriter(document.querySelector('.team .section-title'), t.about.team_title);
+        }
+
+        // Página projetos.html
+        if (path.includes("projetos.html")) {
+            typeWriter(document.querySelector('.projects-hero h1'), t.projects.hero_title, 35);
+            typeWriter(document.querySelector('.projects-hero p'), t.projects.hero_desc, 20);
+
+            typeWriter(document.querySelector('.main-project-card h2'), t.projects.main_project_title);
+            typeWriter(document.querySelector('.main-project-card .project-tag'), t.projects.main_project_status);
+            const projectDesc = document.querySelector('.main-project-card p');
+            if (projectDesc) projectDesc.textContent = t.projects.main_project_desc;
+            typeWriter(document.querySelector('.main-project-card a.btn-secondary'), t.projects.main_project_btn);
+
+            typeWriter(document.querySelector('.cta h2'), t.projects.cta_title);
+            typeWriter(document.querySelector('.cta p'), t.projects.cta_desc, 15);
+            typeWriter(document.querySelector('.cta a.btn-primary'), t.projects.cta_btn);
+        }
+
+        // Página contato.html
+        if (path.includes("contato.html")) {
+            typeWriter(document.querySelector('.contact-hero h1'), t.contact.hero_title, 35);
+            typeWriter(document.querySelector('.contact-hero p'), t.contact.hero_desc, 20);
+
+            typeWriter(document.querySelector('.contact-form-container h2'), t.contact.form_title);
+            typeWriter(document.querySelector('label[for="name"]'), t.contact.form_name);
+            typeWriter(document.querySelector('label[for="lastname"]'), t.contact.form_lastname);
+            typeWriter(document.querySelector('label[for="email"]'), t.contact.form_email);
+            typeWriter(document.querySelector('label[for="company"]'), t.contact.form_company);
+            typeWriter(document.querySelector('label[for="subject"]'), t.contact.form_subject);
+            typeWriter(document.querySelector('label[for="message"]'), t.contact.form_message);
+
+            typeWriter(document.getElementById('name'), t.contact.form_placeholder_name);
+            typeWriter(document.getElementById('lastname'), t.contact.form_placeholder_lastname);
+            typeWriter(document.getElementById('email'), t.contact.form_placeholder_email);
+            typeWriter(document.getElementById('company'), t.contact.form_placeholder_company);
+            typeWriter(document.getElementById('subject'), t.contact.form_placeholder_subject);
+            typeWriter(document.getElementById('message'), t.contact.form_placeholder_message);
+
+            typeWriter(document.querySelector('.contact-form button'), t.contact.form_btn);
+            typeWriter(document.querySelector('.form-disclaimer'), t.contact.form_disclaimer, 15);
+
+            typeWriter(document.querySelector('.contact-info h2'), t.contact.info_title);
+            typeWriter(document.querySelector('.contact-info p'), t.contact.info_desc, 15);
+
+            const methods = document.querySelectorAll('.contact-method');
+            if (methods[0]) {
+                typeWriter(methods[0].querySelector('h3'), t.contact.method_email);
+                typeWriter(methods[0].querySelector('span'), t.contact.method_email_note, 15);
+            }
+            if (methods[1]) {
+                typeWriter(methods[1].querySelector('h3'), t.contact.method_phone);
+                typeWriter(methods[1].querySelector('span'), t.contact.method_phone_note, 15);
+            }
+            if (methods[2]) {
+                typeWriter(methods[2].querySelector('h3'), t.contact.method_location);
+                typeWriter(methods[2].querySelector('span'), t.contact.method_location_note, 15);
+            }
+            if (methods[3]) {
+                typeWriter(methods[3].querySelector('h3'), t.contact.method_whatsapp);
+                typeWriter(methods[3].querySelector('span'), t.contact.method_whatsapp_note, 15);
+            }
+
+            typeWriter(document.querySelector('.faq .section-title'), t.contact.faq_title);
+            const faqItems = document.querySelectorAll('.faq-item');
+            if (faqItems[0]) {
+                typeWriter(faqItems[0].querySelector('h3'), t.contact.faq_q1);
+                typeWriter(faqItems[0].querySelector('p'), t.contact.faq_a1, 15);
+            }
+            if (faqItems[1]) {
+                typeWriter(faqItems[1].querySelector('h3'), t.contact.faq_q2);
+                typeWriter(faqItems[1].querySelector('p'), t.contact.faq_a2, 15);
+            }
+            if (faqItems[2]) {
+                typeWriter(faqItems[2].querySelector('h3'), t.contact.faq_q3);
+                typeWriter(faqItems[2].querySelector('p'), t.contact.faq_a3, 15);
+            }
+            if (faqItems[3]) {
+                typeWriter(faqItems[3].querySelector('h3'), t.contact.faq_q4);
+                typeWriter(faqItems[3].querySelector('p'), t.contact.faq_a4, 15);
+            }
+        }
+
+    } catch (err) {
+        console.error(`Erro ao carregar traduções para ${lang}:`, err);
+    }
 }

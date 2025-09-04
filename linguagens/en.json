@@ -1,0 +1,120 @@
+{
+  "header": {
+    "nav_home": "Home",
+    "nav_about": "About Us",
+    "nav_projects": "Projects",
+    "nav_contact": "Contact",
+    "btn_contact": "Get in Touch"
+  },
+  "hero": {
+    "title": "Technology that unites, inclusion that transforms",
+    "desc": "At Manity Technology, we develop technological solutions that support humanitarian causes.",
+    "btn_project": "See our project",
+    "btn_about": "About Us"
+  },
+  "services": {
+    "title": "Our Services",
+    "items": [
+      {
+        "title": "Web Development",
+        "desc": "We create modern, responsive, and SEO-optimized websites and web applications."
+      },
+      {
+        "title": "Mobile Apps",
+        "desc": "We develop native and hybrid apps for iOS and Android."
+      },
+      {
+        "title": "Reliable Database",
+        "desc": "At Manity, we use databases that store your data reliably."
+      },
+      {
+        "title": "Cloud Computing",
+        "desc": "Scalable and secure infrastructure."
+      }
+    ]
+  },
+  "footer": {
+    "nav": "Navigation",
+    "contact": "Contact",
+    "social": "Social Media",
+    "rights": "© 2025 Manity Technology. All rights reserved."
+  },
+  "about": {
+    "hero_title": "About Us",
+    "hero_desc": "Manity Technology is a company focused on developing innovative technological solutions that connect people.",
+    "mission_title": "Our Mission: Technology that Connects",
+    "mission_paragraph1": "At Manity Technology, we believe that technology should bring people together and support humanitarian causes. We develop web and mobile applications that truly make a difference for our clients.",
+    "mission_paragraph2": "Our team specializes in technologies such as HTML, CSS, JS, React.js, PHP, among others. Our main goal as a team and company is to deliver efficient solutions that help in people’s daily lives.",
+    "values_title": "Our Values",
+    "values": [
+      {
+        "title": "Innovation",
+        "desc": "We constantly seek new technologies and approaches to solve complex problems."
+      },
+      {
+        "title": "Collaboration",
+        "desc": "We work together as a team, always focused on problem-solving."
+      },
+      {
+        "title": "Excellence",
+        "desc": "Committed to quality in every line of code and every client interaction."
+      },
+      {
+        "title": "Passion",
+        "desc": "We love what we do, and this is reflected in our dedication and in the final result of each project."
+      }
+    ],
+    "ods_title": "The Chosen SDG",
+    "ods_desc": "Manity Technology chose SDG 5 – Gender Equality as the foundation of our project. This decision reflects our commitment to promoting inclusion and creating solutions that reduce inequalities, driving social transformation through technology.",
+    "team_title": "Our Team"
+  },
+  "projects": {
+    "hero_title": "Our Projects",
+    "hero_desc": "Check out our main project, which we are working on for our thesis!",
+    "main_project_title": "Maternal Bond",
+    "main_project_status": "In progress",
+    "main_project_desc": "The project consists of a digital hub aimed at single mothers and fathers in vulnerable situations, with the goal of providing support, visibility, and connection to resources that can make their daily lives easier. The platform seeks to be a safe, accessible, and practical space, allowing users to publish needs, share experiences, find support opportunities (such as donations, community services, courses, or even jobs), and build a network of solidarity.",
+    "main_project_btn": "Learn More",
+    "cta_title": "Do you have a project in mind?",
+    "cta_desc": "Let’s turn your idea into digital reality. Contact us for a free consultation.",
+    "cta_btn": "Contact Us"
+  },
+  "contact": {
+    "hero_title": "Get in Touch",
+    "hero_desc": "Do you have a project in mind that helps people around you? Talk to us!",
+    "form_title": "Send Your Message",
+    "form_name": "First Name",
+    "form_lastname": "Last Name",
+    "form_email": "Email",
+    "form_company": "Company (optional)",
+    "form_subject": "Subject",
+    "form_message": "Message",
+    "form_placeholder_name": "Your first name",
+    "form_placeholder_lastname": "Your last name",
+    "form_placeholder_email": "your@email.com",
+    "form_placeholder_company": "Your company name",
+    "form_placeholder_subject": "System, app, website development...",
+    "form_placeholder_message": "Describe your project: features, timeline, estimated budget...",
+    "form_btn": "Send Message",
+    "form_disclaimer": "We will respond to your message within 24 business hours.",
+    "info_title": "Let’s Talk",
+    "info_desc": "We are ready to turn your idea into a real project. Contact us to discuss your next development and receive a personalized proposal.",
+    "method_email": "Email",
+    "method_email_note": "Send us your message and we will reply within 24h",
+    "method_phone": "Phone",
+    "method_phone_note": "Available Monday to Friday, 9 AM to 6 PM",
+    "method_location": "Location",
+    "method_location_note": "We serve clients all over the country",
+    "method_whatsapp": "WhatsApp",
+    "method_whatsapp_note": "Fast service for questions and quotes",
+    "faq_title": "Frequently Asked Questions",
+    "faq_q1": "How long does it take to develop a project?",
+    "faq_a1": "The development time varies according to the project complexity. Simple applications may take 4 to 8 weeks, while more complex systems can take 3 to 6 months.",
+    "faq_q2": "How does the development process work?",
+    "faq_a2": "Our process includes requirements gathering, prototyping, development, testing, and implementation. We work in an agile way, with incremental deliveries and constant feedback.",
+    "faq_q3": "Which technologies do you use?",
+    "faq_a3": "We use modern technologies such as React, Angular, Vue.js for frontend; Node.js, Python, Java for backend; and React Native, Flutter for mobile development.",
+    "faq_q4": "Do you provide support after launch?",
+    "faq_a4": "Yes, we offer support and maintenance plans to ensure your application continues running smoothly and receives updates when needed."
+  }
+}

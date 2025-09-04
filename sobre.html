@@ -5,6 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós - Manity Technology</title>
+
+    <script>
+        (function () {
+            // === TEMA ===
+            let savedTheme = localStorage.getItem('theme');
+            if (!savedTheme) {
+                // primeira visita: define como 'light'
+                savedTheme = 'light';
+                localStorage.setItem('theme', savedTheme);
+            }
+
+            document.body.classList.add(savedTheme + "-mode");
+
+            // === IDIOMA ===
+            let savedLang = localStorage.getItem('lang');
+            if (!savedLang) {
+                savedLang = 'pt';
+                localStorage.setItem('lang', savedLang);
+            }
+            document.documentElement.setAttribute("lang", savedLang);
+        })();
+    </script>
+
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="img/image_copy-removebg-preview.svg" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="img/image_copy-removebg-preview.svg" sizes="512x512">
@@ -40,6 +63,17 @@
                 </ul>
             </nav>
             <div class="header-actions">
+                <div class="language-selector">
+                    <button id="language-toggle" aria-label="Selecionar idioma">
+                        <img src="img/bandeiras/br-flag.svg"  class="flag-icon">
+                    </button>
+                    <ul id="language-menu" class="hidden">
+                        <li data-lang="pt"><img src="img/bandeiras/br-flag.svg" class="flag-icon"> Português</li>
+                        <li data-lang="en"><img src="img/bandeiras/us-flag.svg" class="flag-icon"> English</li>
+                        <li data-lang="es"><img src="img/bandeiras/es-flag.svg" class="flag-icon"> Español</li>
+
+                    </ul>
+                </div>
                 <button id="theme-toggle" aria-label="Alternar tema">
                     <i class="fas fa-moon"></i>
                 </button>

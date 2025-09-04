@@ -1,20 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projetos - Manity Technology</title>
     <link rel="stylesheet" href="css/styles.css">
+
+    <script>
+        (function () {
+            // === TEMA ===
+            let savedTheme = localStorage.getItem('theme');
+            if (!savedTheme) {
+                // primeira visita: define como 'light'
+                savedTheme = 'light';
+                localStorage.setItem('theme', savedTheme);
+            }
+
+            document.body.classList.add(savedTheme + "-mode");
+
+            // === IDIOMA ===
+            let savedLang = localStorage.getItem('lang');
+            if (!savedLang) {
+                savedLang = 'pt';
+                localStorage.setItem('lang', savedLang);
+            }
+            document.documentElement.setAttribute("lang", savedLang);
+        })();
+    </script>
+
     <link rel="icon" href="img/image_copy-removebg-preview.svg" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="img/image_copy-removebg-preview.svg" sizes="512x512">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="light-mode">
     <header>
         <div class="container">
             <div class="logo">
                 <a href="index.html">
-                  <div class="logo-icon"><img src="./img/image_copy-removebg-preview.svg" alt="logo manity Technology"></div>
+                    <div class="logo-icon"><img src="./img/image_copy-removebg-preview.svg"
+                            alt="logo manity Technology"></div>
                     <span>Manity Technology</span>
                 </a>
             </div>
@@ -27,6 +53,17 @@
                 </ul>
             </nav>
             <div class="header-actions">
+                <div class="language-selector">
+                    <button id="language-toggle" aria-label="Selecionar idioma">
+                        <img src="img/bandeiras/br-flag.svg"  class="flag-icon">
+                    </button>
+                    <ul id="language-menu" class="hidden">
+                        <li data-lang="pt"><img src="img/bandeiras/br-flag.svg" class="flag-icon"> Português</li>
+                        <li data-lang="en"><img src="img/bandeiras/us-flag.svg" class="flag-icon"> English</li>
+                        <li data-lang="es"><img src="img/bandeiras/es-flag.svg" class="flag-icon"> Español</li>
+
+                    </ul>
+                </div>
                 <button id="theme-toggle" aria-label="Alternar tema">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -51,14 +88,19 @@
             <div class="container">
                 <div class="project-card main-project-card">
                     <div class="project-image">
-                       <img src="img/agrsim.png" alt="" width="900px">
+                        <img src="img/agrsim.png" alt="" width="900px">
                     </div>
                     <div class="project-content">
                         <div class="project-header">
                             <h2>Elo Materno</h2>
                             <span class="project-tag">Em andamento</span>
                         </div>
-                        <p>O projeto consiste em um hub digital voltado para mães solo e pais em situação de vulnerabilidade, com o objetivo de oferecer suporte, visibilidade e conexão com recursos que possam facilitar sua vida cotidiana. A plataforma busca ser um espaço seguro, acessível e prático, permitindo que os usuários publiquem necessidades, compartilhem experiências, encontrem oportunidades de apoio (como doações, serviços comunitários, cursos ou até empregos) e construam uma rede de solidariedade.</p>
+                        <p>O projeto consiste em um hub digital voltado para mães solo e pais em situação de
+                            vulnerabilidade, com o objetivo de oferecer suporte, visibilidade e conexão com recursos que
+                            possam facilitar sua vida cotidiana. A plataforma busca ser um espaço seguro, acessível e
+                            prático, permitindo que os usuários publiquem necessidades, compartilhem experiências,
+                            encontrem oportunidades de apoio (como doações, serviços comunitários, cursos ou até
+                            empregos) e construam uma rede de solidariedade.</p>
                         <a href="#elomaterno" class="btn-secondary">Saiba Mais <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -68,7 +110,8 @@
         <section class="cta">
             <div class="container">
                 <h2>Tem um projeto em mente?</h2>
-                <p>Vamos transformar sua ideia em realidade digital. Entre em contato conosco para uma consulta gratuita.</p>
+                <p>Vamos transformar sua ideia em realidade digital. Entre em contato conosco para uma consulta
+                    gratuita.</p>
                 <a href="contato.html" class="btn-primary">Fale Conosco</a>
             </div>
         </section>
@@ -78,7 +121,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.svg" alt="logo manity Technology"></div>
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.svg" alt="logo manity Technology">
+                    </div>
                     <span>Manity Technology</span>
                 </div>
                 <div class="footer-links">
@@ -119,4 +163,5 @@
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

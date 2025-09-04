@@ -242,18 +242,6 @@ header .container {
     font-size: var(--font-size-large);
 }
 
-.logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 20px;
-    color: white;
-    border-radius: var(--border-radius-md);
-    margin-right: var(--spacing-sm);
-    font-weight: 700;
-}
-
 nav ul {
     display: flex;
 }
@@ -1181,6 +1169,27 @@ footer {
         background-position: 0% 50%;
     }
 }
+
+.logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;  
+    height: 40px; 
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.logo-icon img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain; 
+    transform-origin: 50% 50%; 
+    transition: transform 0.2s linear;
+    display: block;
+}
+
 
 /* ==== Animação de flutuação do modelo ==== */
 .innovation-image {

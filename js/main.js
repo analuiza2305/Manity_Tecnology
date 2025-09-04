@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initParticles();
     initScrollAnimations();
     initContactForm();
+    initLogoRotation();
 });
 
 // Alternar entre modo claro e escuro
@@ -373,3 +374,48 @@ window.addEventListener('load', function() {
     addModernEffects();
     addDepthEffect();
 });
+function initLogoRotation() {
+    const logo = document.querySelector('.logo'); 
+    const logoIcon = document.querySelector('.logo-icon img');
+    if (!logo || !logoIcon) return;
+
+    let isHovering = false;
+    let currentRotation = 0;
+    let spinSpeed = 0;
+    let animationFrame;
+
+    function animate() {
+        if (isHovering) {
+            spinSpeed = 5;
+        } else {
+            spinSpeed *= 0.92;
+            if (Math.abs(spinSpeed) < 0.05) {
+                const remainder = currentRotation % 360;
+                if (remainder !== 0) {
+                    currentRotation -= remainder;
+                }
+                spinSpeed = 0;
+            }
+        }
+
+        if (spinSpeed !== 0) {
+            currentRotation += spinSpeed;
+            logoIcon.style.transform = `rotate(${currentRotation}deg)`;
+            animationFrame = requestAnimationFrame(animate);
+        } else {
+            cancelAnimationFrame(animationFrame);
+        }
+    }
+
+    logo.addEventListener('mouseenter', () => {
+        isHovering = true;
+        cancelAnimationFrame(animationFrame);
+        animationFrame = requestAnimationFrame(animate);
+    });
+
+    logo.addEventListener('mouseleave', () => {
+        isHovering = false;
+        cancelAnimationFrame(animationFrame);
+        animationFrame = requestAnimationFrame(animate);
+    });
+}

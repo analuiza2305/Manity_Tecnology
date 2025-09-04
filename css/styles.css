@@ -488,15 +488,16 @@ nav ul li a.active:after {
 
 .image-container img {
     width: 100%;
-    height: 400px;
-    background-image: url('https://via.placeholder.com/600x400');
-    background-size: cover;
-    background-position: center;
+    height: auto;
+    /* mantém proporção */
+    max-height: 400px;
+    /* não deixa passar de 400px no desktop */
+    object-fit: cover;
+    /* corta sem distorcer */
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
     position: relative;
     z-index: 2;
-    overflow: hidden;
 }
 
 .innovation-image {
@@ -961,7 +962,11 @@ footer {
         max-width: 450px;
     }
 
-    .about-grid,
+    .about-grid {
+        grid-template-columns: 1fr;
+        /* só uma coluna */
+    }
+
     .contact-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
@@ -971,11 +976,7 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .project-image {
-        height: 200px;
-    }
-
-    .ods-section .about-grid {
+    .ods-section {
         grid-template-columns: 1fr;
         /* uma coluna só */
         direction: ltr;
@@ -991,6 +992,27 @@ footer {
         order: 2;
         /* modelo 3D embaixo */
     }
+
+    .project-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .project-header .project-image {
+        order: 1;
+        /* imagem primeiro */
+        max-width: 100%;
+        height: auto;
+    }
+
+    .project-header p {
+        order: 2;
+        /* parágrafo logo depois da imagem */
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -1014,7 +1036,6 @@ footer {
         display: block;
     }
 
-    /* 🔥 Hero vira coluna (texto em cima, modelo embaixo) */
     .hero .container {
         display: flex;
         flex-direction: column;
@@ -1072,23 +1093,20 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* centraliza conteúdo */
         text-align: center;
-        /* texto alinhado */
         gap: 1rem;
-        /* espaço entre elementos */
-    }
-
-    .project-header p {
-        order: 2;
-        /* força o <p> a ficar depois da imagem */
     }
 
     .project-header .project-image {
         order: 1;
-        /* imagem vem primeiro */
+        /* imagem primeiro */
         max-width: 100%;
         height: auto;
+    }
+
+    .project-header p {
+        order: 2;
+        /* parágrafo logo depois da imagem */
     }
 }
 
@@ -1456,4 +1474,31 @@ footer {
     width: 20px;
     height: 14px;
     border-radius: 2px;
+}
+
+/* Tablets e menores */
+@media (max-width: 1024px) {
+    .project-tag {
+        font-size: 12px;
+        padding: 4px 8px;
+        margin-top: var(--spacing-sm);
+    }
+}
+
+/* Celulares médios */
+@media (max-width: 768px) {
+    .project-tag {
+        font-size: 11px;
+        padding: 3px 6px;
+        margin-top: var(--spacing-sm);
+    }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+    .project-tag {
+        font-size: 10px;
+        padding: 2px 5px;
+        margin-top: var(--spacing-xs);
+    }
 }

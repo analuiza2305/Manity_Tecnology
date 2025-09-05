@@ -324,19 +324,28 @@ function initLanguageSelector() {
     applyTranslation(currentLang);
 }
 
-// Função de animação de máquina de escrever
+// ===== Corrigido: Função de animação de máquina de escrever =====
+const activeTypeWriters = new WeakMap();
+
 function typeWriter(element, newText, speed = 25) {
     if (!element) return;
+
+    // Cancela animações anteriores deste elemento
+    if (activeTypeWriters.has(element)) {
+        activeTypeWriters.get(element).forEach(id => clearTimeout(id));
+    }
+    activeTypeWriters.set(element, []);
 
     // Se for input/textarea com placeholder
     if ((element.tagName === "INPUT" || element.tagName === "TEXTAREA") && element.placeholder !== undefined) {
         let placeholder = "";
         element.placeholder = "";
         [...newText].forEach((char, index) => {
-            setTimeout(() => {
+            const id = setTimeout(() => {
                 placeholder += char;
                 element.placeholder = placeholder;
             }, index * speed);
+            activeTypeWriters.get(element).push(id);
         });
         return;
     }
@@ -344,9 +353,10 @@ function typeWriter(element, newText, speed = 25) {
     // Para textos normais
     element.textContent = "";
     [...newText].forEach((char, index) => {
-        setTimeout(() => {
+        const id = setTimeout(() => {
             element.textContent += char;
         }, index * speed);
+        activeTypeWriters.get(element).push(id);
     });
 }
 
@@ -443,7 +453,6 @@ async function applyTranslation(lang) {
             typeWriter(document.querySelector('label[for="lastname"]'), t.contact.form_lastname);
             typeWriter(document.querySelector('label[for="email"]'), t.contact.form_email);
             typeWriter(document.querySelector('label[for="company"]'), t.contact.form_company);
-            typeWriter(document.querySelector('label[for="subject"]'), t.contact.form_subject);
             typeWriter(document.querySelector('label[for="message"]'), t.contact.form_message);
 
             typeWriter(document.querySelector('.contact-form button'), t.contact.form_btn);

@@ -353,7 +353,7 @@ function typeWriter(element, newText, speed = 25) {
 // Carregar traduções externas
 async function applyTranslation(lang) {
     try {
-        const res = await fetch(`linguagens/${lang}.json`);
+        const res = await fetch(`/linguagens/${lang}.json`);
         const t = await res.json();
 
         // Header

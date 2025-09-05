@@ -353,7 +353,12 @@ function typeWriter(element, newText, speed = 25) {
 // Carregar traduções externas
 async function applyTranslation(lang) {
     try {
-        const res = await fetch(`/linguagens/${lang}.json`);
+        // Detectar se está rodando em subpasta (GitHub Pages) ou na raiz (Netlify)
+        const basePath = window.location.pathname.includes("Manity_Tecnology")
+            ? "/Manity_Tecnology"
+            : "";
+
+        const res = await fetch(`${basePath}/linguagens/${lang}.json`);
         const t = await res.json();
 
         // Header

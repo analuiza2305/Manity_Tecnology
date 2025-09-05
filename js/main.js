@@ -47,7 +47,6 @@ function initThemeToggle() {
     });
 }
 
-
 // Menu mobile
 function initMobileMenu() {
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -350,6 +349,7 @@ function typeWriter(element, newText, speed = 25) {
         }, index * speed);
     });
 }
+
 // Carregar traduções externas
 async function applyTranslation(lang) {
     try {

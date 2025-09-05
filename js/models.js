@@ -89,7 +89,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = maxDim / (2 * Math.tan(fov / 2));
                 cameraZ *= 1.5;
-                camera.position.set(0, -0.5, cameraZ);
+                camera.position.set(0, 0, cameraZ);
                 camera.lookAt(0, 0, 0);
 
                 scene.add(mesh);

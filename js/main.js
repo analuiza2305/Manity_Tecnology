@@ -377,8 +377,8 @@ async function applyTranslation(lang) {
         // 🔎 Verificar qual página está aberta
         const path = window.location.pathname;
 
-        // Página inicial (index.html)
-        if (path.includes("index.html") || path.endsWith("/")) {
+        // Página inicial (index.html ou /)
+        if (path.includes("index.html") || path.endsWith("/") || path.endsWith("/index")) {
             typeWriter(document.querySelector('.hero h1'), t.hero.title, 35);
             typeWriter(document.querySelector('.hero p'), t.hero.desc, 20);
             typeWriter(document.querySelector('.hero-buttons a.btn-primary'), t.hero.btn_project);
@@ -393,8 +393,8 @@ async function applyTranslation(lang) {
             });
         }
 
-        // Página sobre.html
-        if (path.includes("sobre.html")) {
+        // Página sobre
+        if (path.includes("sobre.html") || path.endsWith("/sobre")) {
             typeWriter(document.querySelector('.about-hero h1'), t.about.hero_title, 35);
             typeWriter(document.querySelector('.about-hero p'), t.about.hero_desc, 20);
 
@@ -417,8 +417,8 @@ async function applyTranslation(lang) {
             typeWriter(document.querySelector('.team .section-title'), t.about.team_title);
         }
 
-        // Página projetos.html
-        if (path.includes("projetos.html")) {
+        // Página projetos
+        if (path.includes("projetos.html") || path.endsWith("/projetos")) {
             typeWriter(document.querySelector('.projects-hero h1'), t.projects.hero_title, 35);
             typeWriter(document.querySelector('.projects-hero p'), t.projects.hero_desc, 20);
 
@@ -433,8 +433,8 @@ async function applyTranslation(lang) {
             typeWriter(document.querySelector('.cta a.btn-primary'), t.projects.cta_btn);
         }
 
-        // Página contato.html
-        if (path.includes("contato.html")) {
+        // Página contato
+        if (path.includes("contato.html") || path.endsWith("/contato")) {
             typeWriter(document.querySelector('.contact-hero h1'), t.contact.hero_title, 35);
             typeWriter(document.querySelector('.contact-hero p'), t.contact.hero_desc, 20);
 
@@ -445,13 +445,6 @@ async function applyTranslation(lang) {
             typeWriter(document.querySelector('label[for="company"]'), t.contact.form_company);
             typeWriter(document.querySelector('label[for="subject"]'), t.contact.form_subject);
             typeWriter(document.querySelector('label[for="message"]'), t.contact.form_message);
-
-            typeWriter(document.getElementById('name'), t.contact.form_placeholder_name);
-            typeWriter(document.getElementById('lastname'), t.contact.form_placeholder_lastname);
-            typeWriter(document.getElementById('email'), t.contact.form_placeholder_email);
-            typeWriter(document.getElementById('company'), t.contact.form_placeholder_company);
-            typeWriter(document.getElementById('subject'), t.contact.form_placeholder_subject);
-            typeWriter(document.getElementById('message'), t.contact.form_placeholder_message);
 
             typeWriter(document.querySelector('.contact-form button'), t.contact.form_btn);
             typeWriter(document.querySelector('.form-disclaimer'), t.contact.form_disclaimer, 15);

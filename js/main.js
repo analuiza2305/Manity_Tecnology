@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initContactForm();
     initLogoRotation();
     initLanguageSelector();
+    initAccessibility();
 });
 
 // Alternar entre modo claro e escuro
@@ -502,4 +503,193 @@ async function applyTranslation(lang) {
     } catch (err) {
         console.error(`Erro ao carregar traduções para ${lang}:`, err);
     }
+}
+
+// ===== ACESSIBILIDADE =====
+function initAccessibility() {
+    const accToggle = document.getElementById("accessibility-toggle");
+    const accMenu = document.getElementById("accessibility-menu");
+    if (!accToggle || !accMenu) return;
+
+    accToggle.addEventListener("click", () => {
+        accMenu.classList.toggle("hidden");
+    });
+
+    // === CONFIGURAÇÕES SALVAS ===
+    let settings = {
+        fontSize: parseFloat(localStorage.getItem("fontSize")) || parseFloat(getComputedStyle(document.body).fontSize),
+        colorblind: localStorage.getItem("colorblind") || "Filtros Daltonismo",
+        screenReader: localStorage.getItem("screenReader") === "true"
+    };
+
+    // === CONTROLE DE FONTE ===
+    const increaseBtn = document.getElementById("increase-font");
+    const decreaseBtn = document.getElementById("decrease-font");
+
+    const defaultFontSize = parseFloat(getComputedStyle(document.body).fontSize);
+    let currentFontSize = settings.fontSize;
+
+    if (currentFontSize !== defaultFontSize) {
+        applyFontSize(currentFontSize - defaultFontSize);
+        updateFontButtons();
+    }
+
+    increaseBtn.addEventListener("click", () => {
+        changeFontSize(2);
+        updateFontButtons();
+        localStorage.setItem("fontSize", currentFontSize);
+    });
+
+    decreaseBtn.addEventListener("click", () => {
+        changeFontSize(-2);
+        updateFontButtons();
+        localStorage.setItem("fontSize", currentFontSize);
+    });
+
+    function changeFontSize(delta) {
+        currentFontSize += delta;
+        applyFontSize(delta);
+    }
+
+    function applyFontSize(delta) {
+        document.querySelectorAll("p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, textarea")
+            .forEach(el => {
+                const baseSize = parseFloat(getComputedStyle(el).getPropertyValue('font-size'));
+                el.style.fontSize = (baseSize + delta) + "px";
+            });
+    }
+
+    function updateFontButtons() {
+        increaseBtn.classList.remove("active");
+        decreaseBtn.classList.remove("active");
+
+        if (currentFontSize > defaultFontSize) {
+            increaseBtn.classList.add("active");
+        } else if (currentFontSize < defaultFontSize) {
+            decreaseBtn.classList.add("active");
+        }
+    }
+
+    // === FILTRO DE DALTONISMO ===
+    const modes = [
+        { name: "Filtros Daltonismo", className: "" },
+        { name: "Protanopia", className: "colorblind-protanopia" },
+        { name: "Deuteranopia", className: "colorblind-deuteranopia" },
+        { name: "Tritanopia", className: "colorblind-tritanopia" },
+        { name: "Acromatopsia", className: "colorblind-Acromatopsia" }
+    ];
+
+    const colorblindBtn = document.getElementById("colorblind-filter");
+    let savedMode = localStorage.getItem("colorblindMode") || "Filtros Daltonismo";
+    let currentModeIndex = modes.findIndex(m => m.name === savedMode);
+    if (currentModeIndex === -1) currentModeIndex = 0;
+
+    function applyColorblindMode(index) {
+        const classesToRemove = modes.map(m => m.className).filter(Boolean);
+        if (classesToRemove.length) document.body.classList.remove(...classesToRemove);
+
+        const mode = modes[index];
+        if (mode.className) {
+            document.body.classList.add(mode.className);
+            colorblindBtn.classList.add("active");
+        } else {
+            colorblindBtn.classList.remove("active");
+        }
+
+        colorblindBtn.innerHTML = `<i class="fa fa-low-vision" aria-hidden="true"></i> ${mode.name}`;
+
+        localStorage.setItem("colorblindMode", mode.name);
+
+        requestAnimationFrame(() => {
+            const comp = getComputedStyle(document.body).filter || "";
+            if (!comp.includes("url(")) {
+                document.body.classList.add(mode.className ? 'fallback' : ''); 
+            } else {
+                document.body.classList.remove('fallback');
+            }
+        });
+    }
+
+    applyColorblindMode(currentModeIndex);
+
+    colorblindBtn.addEventListener('click', () => {
+        currentModeIndex = (currentModeIndex + 1) % modes.length;
+        applyColorblindMode(currentModeIndex);
+    });
+
+
+    // === LEITURA EM VOZ ===
+    const screenReaderBtn = document.getElementById("screen-reader");
+    let speechEnabled = settings.screenReader;
+    let navigationMode = "mouse";
+    let lastSpokenElement = null;
+
+    if (speechEnabled) enableSpeech();
+    if (speechEnabled) screenReaderBtn.classList.add("active");
+
+    screenReaderBtn.addEventListener("click", () => {
+        speechEnabled = !speechEnabled;
+        if (speechEnabled) {
+            enableSpeech();
+            screenReaderBtn.classList.add("active");
+        } else {
+            disableSpeech();
+            screenReaderBtn.classList.remove("active");
+        }
+        localStorage.setItem("screenReader", speechEnabled);
+    });
+
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") navigationMode = "tab";
+    });
+    window.addEventListener("mousemove", () => {
+        navigationMode = "mouse";
+    });
+
+    function enableSpeech() {
+        document.body.addEventListener("mouseover", handleSpeechMouse);
+        document.body.addEventListener("focusin", handleSpeechTab);
+        lastSpokenElement = null;
+    }
+
+    function disableSpeech() {
+        document.body.removeEventListener("mouseover", handleSpeechMouse);
+        document.body.removeEventListener("focusin", handleSpeechTab);
+        window.speechSynthesis.cancel();
+        lastSpokenElement = null;
+    }
+
+    function handleSpeechMouse(e) {
+        if (!speechEnabled || navigationMode !== "mouse") return;
+        if (e.target === lastSpokenElement) return;
+        lastSpokenElement = e.target;
+        speakTextFromElement(e.target);
+    }
+
+    function handleSpeechTab(e) {
+        if (!speechEnabled || navigationMode !== "tab") return;
+        if (e.target === lastSpokenElement) return;
+        lastSpokenElement = e.target;
+        speakTextFromElement(e.target);
+    }
+
+    function speakTextFromElement(el) {
+        if (!el) return;
+        const ariaLabel = el.getAttribute && el.getAttribute("aria-label");
+        const alt = el.alt || (el.getAttribute && el.getAttribute("alt"));
+        const title = el.title || (el.getAttribute && el.getAttribute("title"));
+        const value = el.value || "";
+        const text = (ariaLabel || alt || title || value || el.innerText || "").trim();
+        if (!text) return;
+
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".accessibility-selector")) {
+            accMenu.classList.add("hidden");
+        }
+    });
 }

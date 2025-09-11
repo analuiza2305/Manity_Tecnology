@@ -132,36 +132,21 @@ function initContactForm() {
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-
             const formData = new FormData(contactForm);
-            const data = {};
-            for (let [key, value] of formData.entries()) data[key] = value;
+            const formValues = {};
+            for (let [key, value] of formData.entries()) formValues[key] = value;
 
-            // Montar mensagem formatada
-            const msg =
-`*Nome*: ${data.name}
-*Sobrenome*: ${data.lastname}
-*Email*: ${data.email}
-*Empresa*: ${data.company || "-"}
-*Assunto*: ${data.subject}
-*Mensagem*: ${data.message}`;
-
-            const sendOption = formData.get("sendOption");
-
-            if (sendOption === "email") {
-                const destinatario = "Zuccaalmeida@gmail.com";
-                const subject = encodeURIComponent(data.subject);
-                const body = encodeURIComponent(msg);
-                window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${destinatario}&su=${subject}&body=${body}`, "_blank");
-            } else if (sendOption === "whatsapp") {
-                const phone = "5511981590183"; 
-                const text = encodeURIComponent(msg);
-                window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
-            }
+            setTimeout(() => {
+                const successMessage = document.createElement('div');
+                successMessage.className = 'form-success';
+                successMessage.innerHTML = '<i class="fas fa-check-circle"></i> Mensagem enviada com sucesso! Entraremos em contato em breve.';
+                contactForm.reset();
+                contactForm.appendChild(successMessage);
+                setTimeout(() => successMessage.remove(), 5000);
+            }, 1000);
         });
     }
 }
-
 
 // Partículas flutuantes decorativas
 function createFloatingParticles() {
@@ -708,6 +693,7 @@ function initAccessibility() {
         }
     });
 
+    // === NOVOS BOTÕES ===
     const readingMaskBtn = document.getElementById("reading-mask");
     const boldTextBtn = document.getElementById("bold-text");
     const highContrastBtn = document.getElementById("high-contrast");
@@ -731,6 +717,7 @@ function initAccessibility() {
         localStorage.setItem("accessibilitySettings", JSON.stringify(savedAccessibility));
     }
 
+    // === APLICA CONFIGURAÇÕES SALVAS AO CARREGAR ===
     if (savedAccessibility.readingMask) document.body.classList.add("reading-mask-active");
     if (savedAccessibility.boldText) document.body.classList.add("bold-text-active");
     if (savedAccessibility.highContrast) document.body.classList.add("high-contrast-active");
@@ -760,6 +747,7 @@ function initAccessibility() {
         saveAccessibility();
     });
 
+    // Seguir o cursor
     document.addEventListener("mousemove", (e) => {
         if (readingMaskOverlay.style.display === "block") {
             const highlight = readingMaskOverlay.querySelector(".highlight-window");
@@ -767,12 +755,15 @@ function initAccessibility() {
         }
     });
 
+    // Restaurar se estava ativo
     if (savedAccessibility.readingMask) {
         readingMaskOverlay.style.display = "block";
     }
 
     // === Modo leitura + botão sair ===
+    // pegar o botão (garanta que esse código rode depois do DOM estar pronto, dentro do initAccessibility)
 
+    // função centralizada que aplica e salva estado
     function applyReadingMode(state) {
         if (state) {
             document.body.classList.add("reading-mode-active");
@@ -786,6 +777,7 @@ function initAccessibility() {
         saveAccessibility();
     }
 
+    // clique no menu que ativa/desativa o modo leitura
     if (readingModeBtn) {
         readingModeBtn.addEventListener("click", () => {
             const currently = document.body.classList.contains("reading-mode-active");
@@ -793,10 +785,13 @@ function initAccessibility() {
         });
     }
 
+    // clique no botão flutuante para sair do modo leitura
     if (exitReadingModeBtn) {
+        // garantir que o botão não fique sem listener
         exitReadingModeBtn.addEventListener("click", () => {
             applyReadingMode(false);
         });
+        // caso o estado restaurado exija que o botão esteja visível:
         if (savedAccessibility.readingMode) {
             exitReadingModeBtn.style.display = "flex";
         } else {
@@ -804,9 +799,50 @@ function initAccessibility() {
         }
     }
 
+    // restaurar estado salvo
     if (savedAccessibility.readingMode) {
         applyReadingMode(true);
     }
+
+    if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+            // Remover classes do body
+            document.body.classList.remove(
+                "bold-text-active",
+                "high-contrast-active",
+                "line-spacing-lg",
+                "line-spacing-sm",
+                "reading-mode-active",
+                "colorblind-protanopia",
+                "colorblind-deuteranopia",
+                "colorblind-tritanopia",
+                "colorblind-Acromatopsia",
+                "fallback"
+            );
+
+            // Esconder máscara de leitura
+            const readingMaskOverlay = document.getElementById("reading-mask-overlay");
+            if (readingMaskOverlay) readingMaskOverlay.style.display = "none";
+
+            // Esconder botão sair do modo leitura
+            if (exitReadingModeBtn) exitReadingModeBtn.style.display = "none";
+
+            // Resetar estados
+            savedAccessibility = {
+                readingMask: false,
+                boldText: false,
+                highContrast: false,
+                lineSpacing: "normal",
+                readingMode: false
+            };
+            saveAccessibility();
+
+            // Resetar fonte
+            localStorage.removeItem("fontSize");
+            location.reload(); // recarrega a página para voltar ao estado padrão
+        });
+    }
+
 
     boldTextBtn.addEventListener("click", () => {
         document.body.classList.toggle("bold-text-active");
@@ -833,51 +869,25 @@ function initAccessibility() {
         savedAccessibility.lineSpacing = "small";
         saveAccessibility();
     });
-
     // === RESET ===
-    if (resetBtn) {
-        resetBtn.addEventListener("click", () => {
-            const removeClasses = [
-                "reading-mask-active",
-                "bold-text-active",
-                "high-contrast-active",
-                "line-spacing-lg",
-                "line-spacing-sm",
-                "reading-mode-active",
-                "colorblind-protanopia",
-                "colorblind-deuteranopia",
-                "colorblind-tritanopia",
-                "colorblind-Acromatopsia",
-                "fallback"
-            ];
-            document.body.classList.remove(...removeClasses);
-
-            if (readingMaskOverlay) readingMaskOverlay.style.display = "none";
-            if (exitReadingModeBtn) exitReadingModeBtn.style.display = "none";
-
-            document.querySelectorAll("p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, textarea")
-                .forEach(el => el.style.fontSize = "");
-
-            document.querySelectorAll("#accessibility-menu li").forEach(li => li.classList.remove("active"));
-
-            savedAccessibility = {
-                readingMask: false,
-                boldText: false,
-                highContrast: false,
-                lineSpacing: "normal",
-                readingMode: false
-            };
-            saveAccessibility();
-
-            localStorage.removeItem("fontSize");
-            localStorage.removeItem("colorblindMode");
-            localStorage.removeItem("screenReader");
-
-            if (speechEnabled) {
-                disableSpeech();
-                speechEnabled = false;
-            }
-        });
-    }
+    resetBtn.addEventListener("click", () => {
+        document.body.classList.remove(
+            "reading-mask-active",
+            "bold-text-active",
+            "high-contrast-active",
+            "line-spacing-lg",
+            "line-spacing-sm",
+            "reading-mode-active"
+        );
+        savedAccessibility = {
+            readingMask: false,
+            boldText: false,
+            highContrast: false,
+            lineSpacing: "normal",
+            readingMode: false
+        };
+        saveAccessibility();
+        location.reload();
+    });
 
 }

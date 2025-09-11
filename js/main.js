@@ -139,7 +139,7 @@ function initContactForm() {
 
             // Montar mensagem formatada
             const msg =
-`*Nome*: ${data.name}
+                `*Nome*: ${data.name}
 *Sobrenome*: ${data.lastname}
 *Email*: ${data.email}
 *Empresa*: ${data.company || "-"}
@@ -154,7 +154,7 @@ function initContactForm() {
                 const body = encodeURIComponent(msg);
                 window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${destinatario}&su=${subject}&body=${body}`, "_blank");
             } else if (sendOption === "whatsapp") {
-                const phone = "5511981590183"; 
+                const phone = "5511981590183";
                 const text = encodeURIComponent(msg);
                 window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
             }
@@ -520,17 +520,14 @@ async function applyTranslation(lang) {
     }
 }
 
-// ===== ACESSIBILIDADE =====
 function initAccessibility() {
     const accToggle = document.getElementById("accessibility-toggle");
     const accMenu = document.getElementById("accessibility-menu");
     if (!accToggle || !accMenu) return;
 
-    accToggle.addEventListener("click", () => {
-        accMenu.classList.toggle("hidden");
-    });
+    accToggle.addEventListener("click", () => accMenu.classList.toggle("hidden"));
 
-    // === CONFIGURAÇÕES SALVAS ===
+    // === CONFIGURAÇÕES INICIAIS SALVAS / FALLBACKS ===
     let settings = {
         fontSize: parseFloat(localStorage.getItem("fontSize")) || parseFloat(getComputedStyle(document.body).fontSize),
         colorblind: localStorage.getItem("colorblind") || "Filtros Daltonismo",
@@ -540,52 +537,39 @@ function initAccessibility() {
     // === CONTROLE DE FONTE ===
     const increaseBtn = document.getElementById("increase-font");
     const decreaseBtn = document.getElementById("decrease-font");
-
     const defaultFontSize = parseFloat(getComputedStyle(document.body).fontSize);
     let currentFontSize = settings.fontSize;
 
-    if (currentFontSize !== defaultFontSize) {
-        applyFontSize(currentFontSize - defaultFontSize);
-        updateFontButtons();
+    function applyFontSize(delta) {
+        document.querySelectorAll("p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, textarea")
+            .forEach(el => {
+                const baseSize = parseFloat(getComputedStyle(el).getPropertyValue("font-size"));
+                el.style.fontSize = (baseSize + delta) + "px";
+            });
     }
-
-    increaseBtn.addEventListener("click", () => {
-        changeFontSize(2);
-        updateFontButtons();
-        localStorage.setItem("fontSize", currentFontSize);
-    });
-
-    decreaseBtn.addEventListener("click", () => {
-        changeFontSize(-2);
-        updateFontButtons();
-        localStorage.setItem("fontSize", currentFontSize);
-    });
 
     function changeFontSize(delta) {
         currentFontSize += delta;
         applyFontSize(delta);
     }
 
-    function applyFontSize(delta) {
-        document.querySelectorAll("p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, textarea")
-            .forEach(el => {
-                const baseSize = parseFloat(getComputedStyle(el).getPropertyValue('font-size'));
-                el.style.fontSize = (baseSize + delta) + "px";
-            });
-    }
-
     function updateFontButtons() {
+        if (!increaseBtn || !decreaseBtn) return;
         increaseBtn.classList.remove("active");
         decreaseBtn.classList.remove("active");
-
-        if (currentFontSize > defaultFontSize) {
-            increaseBtn.classList.add("active");
-        } else if (currentFontSize < defaultFontSize) {
-            decreaseBtn.classList.add("active");
-        }
+        if (currentFontSize > defaultFontSize) increaseBtn.classList.add("active");
+        else if (currentFontSize < defaultFontSize) decreaseBtn.classList.add("active");
     }
 
-    // === FILTRO DE DALTONISMO ===
+    if (currentFontSize !== defaultFontSize) {
+        applyFontSize(currentFontSize - defaultFontSize);
+        updateFontButtons();
+    }
+
+    if (increaseBtn) increaseBtn.addEventListener("click", () => { changeFontSize(2); updateFontButtons(); localStorage.setItem("fontSize", currentFontSize); });
+    if (decreaseBtn) decreaseBtn.addEventListener("click", () => { changeFontSize(-2); updateFontButtons(); localStorage.setItem("fontSize", currentFontSize); });
+
+    // === FILTROS DE DALTONISMO ===
     const modes = [
         { name: "Filtros Daltonismo", className: "" },
         { name: "Protanopia", className: "colorblind-protanopia" },
@@ -593,7 +577,6 @@ function initAccessibility() {
         { name: "Tritanopia", className: "colorblind-tritanopia" },
         { name: "Acromatopsia", className: "colorblind-Acromatopsia" }
     ];
-
     const colorblindBtn = document.getElementById("colorblind-filter");
     let savedMode = localStorage.getItem("colorblindMode") || "Filtros Daltonismo";
     let currentModeIndex = modes.findIndex(m => m.name === savedMode);
@@ -602,36 +585,18 @@ function initAccessibility() {
     function applyColorblindMode(index) {
         const classesToRemove = modes.map(m => m.className).filter(Boolean);
         if (classesToRemove.length) document.body.classList.remove(...classesToRemove);
-
         const mode = modes[index];
         if (mode.className) {
             document.body.classList.add(mode.className);
-            colorblindBtn.classList.add("active");
+            if (colorblindBtn) colorblindBtn.classList.add("active");
         } else {
-            colorblindBtn.classList.remove("active");
+            if (colorblindBtn) colorblindBtn.classList.remove("active");
         }
-
-        colorblindBtn.innerHTML = `<i class="fa fa-low-vision" aria-hidden="true"></i> ${mode.name}`;
-
+        if (colorblindBtn) colorblindBtn.innerHTML = `<i class="fa fa-low-vision" aria-hidden="true"></i> ${mode.name}`;
         localStorage.setItem("colorblindMode", mode.name);
-
-        requestAnimationFrame(() => {
-            const comp = getComputedStyle(document.body).filter || "";
-            if (!comp.includes("url(")) {
-                document.body.classList.add(mode.className ? 'fallback' : '');
-            } else {
-                document.body.classList.remove('fallback');
-            }
-        });
     }
-
     applyColorblindMode(currentModeIndex);
-
-    colorblindBtn.addEventListener('click', () => {
-        currentModeIndex = (currentModeIndex + 1) % modes.length;
-        applyColorblindMode(currentModeIndex);
-    });
-
+    if (colorblindBtn) colorblindBtn.addEventListener("click", () => { currentModeIndex = (currentModeIndex + 1) % modes.length; applyColorblindMode(currentModeIndex); });
 
     // === LEITURA EM VOZ ===
     const screenReaderBtn = document.getElementById("screen-reader");
@@ -639,55 +604,29 @@ function initAccessibility() {
     let navigationMode = "mouse";
     let lastSpokenElement = null;
 
-    if (speechEnabled) enableSpeech();
-    if (speechEnabled) screenReaderBtn.classList.add("active");
-
-    screenReaderBtn.addEventListener("click", () => {
-        speechEnabled = !speechEnabled;
-        if (speechEnabled) {
-            enableSpeech();
-            screenReaderBtn.classList.add("active");
-        } else {
-            disableSpeech();
-            screenReaderBtn.classList.remove("active");
-        }
-        localStorage.setItem("screenReader", speechEnabled);
-    });
-
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Tab") navigationMode = "tab";
-    });
-    window.addEventListener("mousemove", () => {
-        navigationMode = "mouse";
-    });
-
     function enableSpeech() {
         document.body.addEventListener("mouseover", handleSpeechMouse);
         document.body.addEventListener("focusin", handleSpeechTab);
         lastSpokenElement = null;
     }
-
     function disableSpeech() {
         document.body.removeEventListener("mouseover", handleSpeechMouse);
         document.body.removeEventListener("focusin", handleSpeechTab);
         window.speechSynthesis.cancel();
         lastSpokenElement = null;
     }
-
     function handleSpeechMouse(e) {
         if (!speechEnabled || navigationMode !== "mouse") return;
         if (e.target === lastSpokenElement) return;
         lastSpokenElement = e.target;
         speakTextFromElement(e.target);
     }
-
     function handleSpeechTab(e) {
         if (!speechEnabled || navigationMode !== "tab") return;
         if (e.target === lastSpokenElement) return;
         lastSpokenElement = e.target;
         speakTextFromElement(e.target);
     }
-
     function speakTextFromElement(el) {
         if (!el) return;
         const ariaLabel = el.getAttribute && el.getAttribute("aria-label");
@@ -696,18 +635,29 @@ function initAccessibility() {
         const value = el.value || "";
         const text = (ariaLabel || alt || title || value || el.innerText || "").trim();
         if (!text) return;
-
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         window.speechSynthesis.speak(utterance);
     }
 
-    document.addEventListener("click", (e) => {
-        if (!e.target.closest(".accessibility-selector")) {
-            accMenu.classList.add("hidden");
-        }
+    if (speechEnabled) enableSpeech();
+    if (speechEnabled && screenReaderBtn) screenReaderBtn.classList.add("active");
+    if (screenReaderBtn) screenReaderBtn.addEventListener("click", () => {
+        speechEnabled = !speechEnabled;
+        if (speechEnabled) { enableSpeech(); screenReaderBtn.classList.add("active"); }
+        else { disableSpeech(); screenReaderBtn.classList.remove("active"); }
+        localStorage.setItem("screenReader", speechEnabled);
     });
 
+    window.addEventListener("keydown", (e) => { if (e.key === "Tab") navigationMode = "tab"; });
+    window.addEventListener("mousemove", () => { navigationMode = "mouse"; });
+
+    // === ESCONDER MENU AO CLICAR FORA ===
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".accessibility-selector")) accMenu.classList.add("hidden");
+    });
+
+    // === BOTÕES DO MENU ===
     const readingMaskBtn = document.getElementById("reading-mask");
     const boldTextBtn = document.getElementById("bold-text");
     const highContrastBtn = document.getElementById("high-contrast");
@@ -716,168 +666,141 @@ function initAccessibility() {
     const readingModeBtn = document.getElementById("reading-mode");
     const resetBtn = document.getElementById("reset-accessibility");
     const exitReadingModeBtn = document.getElementById("exit-reading-mode");
+    const readingMaskOverlay = document.getElementById("reading-mask-overlay");
 
-    // === ESTADO SALVO ===
+    // estado salvo (persistência)
     let savedAccessibility = JSON.parse(localStorage.getItem("accessibilitySettings")) || {
         readingMask: false,
         boldText: false,
         highContrast: false,
-        lineSpacing: "normal", // normal | large | small
+        lineSpacing: "normal",
         readingMode: false
     };
 
-    // === FUNÇÃO PARA ATUALIZAR LOCALSTORAGE ===
     function saveAccessibility() {
         localStorage.setItem("accessibilitySettings", JSON.stringify(savedAccessibility));
     }
 
-    if (savedAccessibility.readingMask) document.body.classList.add("reading-mask-active");
-    if (savedAccessibility.boldText) document.body.classList.add("bold-text-active");
-    if (savedAccessibility.highContrast) document.body.classList.add("high-contrast-active");
+    // === RESTAURA ESTADOS INICIAIS (UI + CLASSES) ===
+    if (readingMaskOverlay) readingMaskOverlay.style.display = savedAccessibility.readingMask ? "block" : "none";
+    document.body.classList.toggle("bold-text-active", !!savedAccessibility.boldText);
+    document.body.classList.toggle("high-contrast-active", !!savedAccessibility.highContrast);
+    document.body.classList.toggle("line-spacing-lg", savedAccessibility.lineSpacing === "large");
+    document.body.classList.toggle("line-spacing-sm", savedAccessibility.lineSpacing === "small");
+    document.body.classList.toggle("reading-mode-active", !!savedAccessibility.readingMode);
 
-    if (savedAccessibility.lineSpacing === "large") {
-        document.body.classList.add("line-spacing-lg");
-    } else if (savedAccessibility.lineSpacing === "small") {
-        document.body.classList.add("line-spacing-sm");
+    // função utilitária para atualizar estado visual do li
+    function toggleActive(liEl, cond) { if (!liEl) return; liEl.classList.toggle("active", !!cond); }
+
+    // garante que os botões do menu reflitam o estado salvo
+    toggleActive(boldTextBtn, savedAccessibility.boldText);
+    toggleActive(highContrastBtn, savedAccessibility.highContrast);
+    toggleActive(readingMaskBtn, savedAccessibility.readingMask);
+    toggleActive(increaseLineBtn, savedAccessibility.lineSpacing === "large");
+    toggleActive(decreaseLineBtn, savedAccessibility.lineSpacing === "small");
+
+    // === MÁSCARA DE LEITURA (overlay + classe) ===
+    if (readingMaskBtn && readingMaskOverlay) {
+        readingMaskBtn.addEventListener("click", () => {
+            const currently = readingMaskOverlay.style.display === "block";
+            readingMaskOverlay.style.display = currently ? "none" : "block";
+            document.body.classList.toggle("reading-mask-active", !currently);
+            savedAccessibility.readingMask = !currently;
+            toggleActive(readingMaskBtn, savedAccessibility.readingMask);
+            saveAccessibility();
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (readingMaskOverlay.style.display === "block") {
+                const highlight = readingMaskOverlay.querySelector(".highlight-window");
+                if (highlight) {
+                    const height = highlight.offsetHeight;
+                    const top = e.pageY - height / 2; // usa pageY em vez de clientY
+                    highlight.style.top = `${top}px`;
+                }
+            }
+        });
+        
     }
 
-    if (savedAccessibility.readingMode) {
-        document.body.classList.add("reading-mode-active");
+    // === LETRAS DESTACADAS (aplica uma vez somente) ===
+    if (boldTextBtn) {
+        boldTextBtn.addEventListener("click", () => {
+            const now = !document.body.classList.contains("bold-text-active");
+            document.body.classList.toggle("bold-text-active", now);
+            savedAccessibility.boldText = now;
+            toggleActive(boldTextBtn, savedAccessibility.boldText);
+            saveAccessibility();
+        });
     }
 
-    // === LISTENERS ===
-    const readingMaskOverlay = document.getElementById("reading-mask-overlay");
+    // === ALTO CONTRASTE ===
+    if (highContrastBtn) {
+        highContrastBtn.addEventListener("click", () => {
+            const now = !document.body.classList.contains("high-contrast-active");
+            document.body.classList.toggle("high-contrast-active", now);
+            savedAccessibility.highContrast = now;
+            toggleActive(highContrastBtn, savedAccessibility.highContrast);
+            saveAccessibility();
+        });
+    }
 
-    readingMaskBtn.addEventListener("click", () => {
-        const isActive = readingMaskOverlay.style.display === "block";
-        if (isActive) {
-            readingMaskOverlay.style.display = "none";
-            savedAccessibility.readingMask = false;
-        } else {
-            readingMaskOverlay.style.display = "block";
-            savedAccessibility.readingMask = true;
-        }
+    // === ESPAÇAMENTO DE LINHAS (3 estados: small | normal | large) ===
+    function applyLineSpacing(state) {
+        document.body.classList.remove("line-spacing-sm", "line-spacing-normal", "line-spacing-lg");
+        if (state === "small") document.body.classList.add("line-spacing-sm");
+        else if (state === "normal") document.body.classList.add("line-spacing-normal");
+        else if (state === "large") document.body.classList.add("line-spacing-lg");
+        savedAccessibility.lineSpacing = state;
+        toggleActive(increaseLineBtn, state === "large");
+        toggleActive(decreaseLineBtn, state === "small");
         saveAccessibility();
-    });
-
-    document.addEventListener("mousemove", (e) => {
-        if (readingMaskOverlay.style.display === "block") {
-            const highlight = readingMaskOverlay.querySelector(".highlight-window");
-            highlight.style.top = `${e.clientY - 60}px`;
-        }
-    });
-
-    if (savedAccessibility.readingMask) {
-        readingMaskOverlay.style.display = "block";
     }
+    if (increaseLineBtn) increaseLineBtn.addEventListener("click", () => {
+        if (savedAccessibility.lineSpacing === "small") applyLineSpacing("normal");
+        else if (savedAccessibility.lineSpacing === "normal") applyLineSpacing("large");
+    });
+    if (decreaseLineBtn) decreaseLineBtn.addEventListener("click", () => {
+        if (savedAccessibility.lineSpacing === "large") applyLineSpacing("normal");
+        else if (savedAccessibility.lineSpacing === "normal") applyLineSpacing("small");
+    });
+    applyLineSpacing(savedAccessibility.lineSpacing || "normal");
 
-    // === Modo leitura + botão sair ===
-
+    // === MODO LEITURA (botão + botão sair) ===
     function applyReadingMode(state) {
-        if (state) {
-            document.body.classList.add("reading-mode-active");
-            // mostra o botão explicitamente (fallback para o caso de CSS interferir)
-            if (exitReadingModeBtn) exitReadingModeBtn.style.display = "flex";
-        } else {
-            document.body.classList.remove("reading-mode-active");
-            if (exitReadingModeBtn) exitReadingModeBtn.style.display = "none";
-        }
-        savedAccessibility.readingMode = state;
+        document.body.classList.toggle("reading-mode-active", !!state);
+        if (exitReadingModeBtn) exitReadingModeBtn.style.display = state ? "flex" : "none";
+        savedAccessibility.readingMode = !!state;
         saveAccessibility();
     }
-
-    if (readingModeBtn) {
-        readingModeBtn.addEventListener("click", () => {
-            const currently = document.body.classList.contains("reading-mode-active");
-            applyReadingMode(!currently);
-        });
-    }
-
-    if (exitReadingModeBtn) {
-        exitReadingModeBtn.addEventListener("click", () => {
-            applyReadingMode(false);
-        });
-        if (savedAccessibility.readingMode) {
-            exitReadingModeBtn.style.display = "flex";
-        } else {
-            exitReadingModeBtn.style.display = "none";
-        }
-    }
-
-    if (savedAccessibility.readingMode) {
-        applyReadingMode(true);
-    }
-
-    boldTextBtn.addEventListener("click", () => {
-        document.body.classList.toggle("bold-text-active");
-        savedAccessibility.boldText = document.body.classList.contains("bold-text-active");
-        saveAccessibility();
-    });
-
-    highContrastBtn.addEventListener("click", () => {
-        document.body.classList.toggle("high-contrast-active");
-        savedAccessibility.highContrast = document.body.classList.contains("high-contrast-active");
-        saveAccessibility();
-    });
-
-    increaseLineBtn.addEventListener("click", () => {
-        document.body.classList.remove("line-spacing-sm");
-        document.body.classList.add("line-spacing-lg");
-        savedAccessibility.lineSpacing = "large";
-        saveAccessibility();
-    });
-
-    decreaseLineBtn.addEventListener("click", () => {
-        document.body.classList.remove("line-spacing-lg");
-        document.body.classList.add("line-spacing-sm");
-        savedAccessibility.lineSpacing = "small";
-        saveAccessibility();
-    });
+    if (readingModeBtn) readingModeBtn.addEventListener("click", () => applyReadingMode(!document.body.classList.contains("reading-mode-active")));
+    if (exitReadingModeBtn) exitReadingModeBtn.addEventListener("click", () => applyReadingMode(false));
+    if (savedAccessibility.readingMode) applyReadingMode(true);
 
     // === RESET ===
     if (resetBtn) {
         resetBtn.addEventListener("click", () => {
             const removeClasses = [
-                "reading-mask-active",
-                "bold-text-active",
-                "high-contrast-active",
-                "line-spacing-lg",
-                "line-spacing-sm",
-                "reading-mode-active",
-                "colorblind-protanopia",
-                "colorblind-deuteranopia",
-                "colorblind-tritanopia",
-                "colorblind-Acromatopsia",
-                "fallback"
+                "reading-mask-active","bold-text-active","high-contrast-active",
+                "line-spacing-lg","line-spacing-sm","line-spacing-normal","reading-mode-active",
+                "colorblind-protanopia","colorblind-deuteranopia","colorblind-tritanopia",
+                "colorblind-Acromatopsia","fallback"
             ];
             document.body.classList.remove(...removeClasses);
-
             if (readingMaskOverlay) readingMaskOverlay.style.display = "none";
             if (exitReadingModeBtn) exitReadingModeBtn.style.display = "none";
 
+            document.querySelectorAll("#accessibility-menu li").forEach(li => li.classList.remove("active"));
             document.querySelectorAll("p, span, a, li, h1, h2, h3, h4, h5, h6, button, label, input, textarea")
                 .forEach(el => el.style.fontSize = "");
 
-            document.querySelectorAll("#accessibility-menu li").forEach(li => li.classList.remove("active"));
-
-            savedAccessibility = {
-                readingMask: false,
-                boldText: false,
-                highContrast: false,
-                lineSpacing: "normal",
-                readingMode: false
-            };
+            savedAccessibility = { readingMask: false, boldText: false, highContrast: false, lineSpacing: "normal", readingMode: false };
             saveAccessibility();
-
             localStorage.removeItem("fontSize");
             localStorage.removeItem("colorblindMode");
             localStorage.removeItem("screenReader");
 
-            if (speechEnabled) {
-                disableSpeech();
-                speechEnabled = false;
-            }
+            if (speechEnabled) { disableSpeech(); speechEnabled = false; }
         });
     }
-
 }

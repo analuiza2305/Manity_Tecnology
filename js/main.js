@@ -585,6 +585,7 @@ function initAccessibility() {
     function applyColorblindMode(index) {
         const classesToRemove = modes.map(m => m.className).filter(Boolean);
         if (classesToRemove.length) document.body.classList.remove(...classesToRemove);
+    
         const mode = modes[index];
         if (mode.className) {
             document.body.classList.add(mode.className);
@@ -592,9 +593,13 @@ function initAccessibility() {
         } else {
             if (colorblindBtn) colorblindBtn.classList.remove("active");
         }
-        if (colorblindBtn) colorblindBtn.innerHTML = `<i class="fa fa-low-vision" aria-hidden="true"></i> ${mode.name}`;
+    
+        if (colorblindBtn) {
+            colorblindBtn.innerHTML = `<i class="fa fa-low-vision" aria-hidden="true"></i> ${mode.name}`;
+        }
         localStorage.setItem("colorblindMode", mode.name);
     }
+    
     applyColorblindMode(currentModeIndex);
     if (colorblindBtn) colorblindBtn.addEventListener("click", () => { currentModeIndex = (currentModeIndex + 1) % modes.length; applyColorblindMode(currentModeIndex); });
 

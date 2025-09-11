@@ -176,6 +176,7 @@ p {
     transition: all var(--transition-fast);
     border: none;
     font-size: var(--font-size-base);
+    z-index: 200;
 }
 
 .btn-primary {

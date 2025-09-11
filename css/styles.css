@@ -476,6 +476,7 @@ nav ul li a.active:after {
 
 .about-image {
     position: relative;
+    z-index: 200;
 }
 
 .image-container img {
@@ -1524,7 +1525,6 @@ footer {
 }
 
 /* ===== DALTONISMO ===== */
-/* aplicar SVG filter via classe no body (Chrome/Chromium) */
 body.colorblind-protanopia {
     filter: url(#protanopia);
 }
@@ -1559,30 +1559,14 @@ body.colorblind-Acromatopsia.fallback {
 }
 
 /* Máscara de leitura */
-.reading-mask-active::after {
-    content: "";
-    position: fixed;
-    top: 30%;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    pointer-events: none;
-    background: rgba(0,0,0,0.6);
-    mix-blend-mode: multiply;
-    z-index: 9999;
-}
 
-/* Overlay da máscara de leitura */
-#reading-mask-overlay {
-    position: fixed;
-    top: 0;
+#reading-mask-overlay .highlight-window {
+    position: absolute;
     left: 0;
     width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 9998;
-    display: none;
+    height: 120px;
+    background: #fff; /* área de leitura clara */
+    box-shadow: 0 0 0 9999px #000; /* fundo preto sólido */
 }
 
 /* Janela visível da máscara */
@@ -1590,14 +1574,25 @@ body.colorblind-Acromatopsia.fallback {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 120px; /* altura da faixa visível */
+    height: 120px; 
     background: transparent;
     box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
 }
 
+.reading-mask-active .service-card,
+.reading-mask-active .value-card,
+.reading-mask-active .team-member,
+.reading-mask-active .project-grid .container,
+.reading-mask-active .form-group,
+.reading-mask-active .btn-primary.btn-full,
+.reading-mask-active .faq-item {
+    background-color: transparent !important;
+    box-shadow: none !important; 
+}
+
 
 /* Texto em negrito */
-.bold-text-active * {
+body.bold-text-active :not(#accessibility-menu):not(.accessibility-selector):not(#accessibility-menu *):not(.accessibility-selector *) {
     font-weight: bold !important;
 }
 
@@ -1618,7 +1613,9 @@ body.colorblind-Acromatopsia.fallback {
     line-height: 1.2 !important;
 }
 
-
+.line-spacing-normal * {
+    line-height: auto !important;
+}
 
 @media (max-width: 1024px) {
     .project-card {
@@ -1644,4 +1641,3 @@ body.colorblind-Acromatopsia.fallback {
         margin-top: var(--spacing-md);
     }
 }
-

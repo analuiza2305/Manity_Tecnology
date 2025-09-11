@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manity Technology - Inovação que conecta o futuro</title>
+
+    <script>
+        (function () {
+            // === TEMA ===
+            let savedTheme = localStorage.getItem('theme');
+            if (!savedTheme) {
+                savedTheme = 'light';
+                localStorage.setItem('theme', savedTheme);
+            }
+
+            document.body.classList.add(savedTheme + "-mode");
+
+            // === IDIOMA ===
+            let savedLang = localStorage.getItem('lang');
+            if (!savedLang) {
+                savedLang = 'pt';
+                localStorage.setItem('lang', savedLang);
+            }
+            document.documentElement.setAttribute("lang", savedLang);
+        })();
+    </script>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/image_copy-removebg-preview.svg" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="img/image_copy-removebg-preview.svg" sizes="512x512">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.150.0/examples/jsm/"
+  }
+}
+</script>
+
+</head>
+
+<body class="light-mode">
+
+    <!-- Filtros SVG para simulação de daltonismo -->
+    <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;">
+        <defs>
+            <!-- Protanopia (red-blind) -->
+            <filter id="protanopia">
+                <feColorMatrix type="matrix" values="
+            0.567 0.433 0 0 0
+            0.558 0.442 0 0 0
+            0     0.242 0.758 0 0
+            0     0     0     1 0" />
+            </filter>
+
+            <!-- Deuteranopia (green-blind) -->
+            <filter id="deuteranopia">
+                <feColorMatrix type="matrix" values="
+            0.625 0.375 0 0 0
+            0.700 0.300 0 0 0
+            0     0.300 0.700 0 0
+            0     0     0     1 0" />
+            </filter>
+
+            <!-- Tritanopia (blue-blind) -->
+            <filter id="tritanopia">
+                <feColorMatrix type="matrix" values="
+            0.950 0.050 0     0 0
+            0     0.433 0.567 0 0
+            0     0.475 0.525 0 0
+            0     0     0     1 0" />
+            </filter>
+
+            <!-- Acromatopsia (grayscale) -->
+            <filter id="Acromatopsia">
+                <feColorMatrix type="matrix" values="
+            0.299 0.587 0.114 0 0
+            0.299 0.587 0.114 0 0
+            0.299 0.587 0.114 0 0
+            0     0     0     1 0" />
+            </filter>
+        </defs>
+    </svg>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.svg" alt="Logo Manity Technology">
+                    </div>
+                    <span>Manity Technology</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Início</a></li>
+                    <li><a href="sobre.html">Sobre Nós</a></li>
+                    <li><a href="projetos.html">Projetos</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+
+                <div class="language-selector">
+                    <button id="language-toggle" aria-label="Selecionar idioma">
+                        <img src="img/bandeiras/br-flag.svg" class="flag-icon">
+                    </button>
+
+                    <ul id="language-menu" class="hidden">
+                        <li data-lang="pt"><img src="img/bandeiras/br-flag.svg" class="flag-icon"> Português</li>
+                        <li data-lang="en"><img src="img/bandeiras/us-flag.svg" class="flag-icon"> English</li>
+                        <li data-lang="es"><img src="img/bandeiras/es-flag.svg" class="flag-icon"> Español</li>
+
+                    </ul>
+                </div>
+
+                <div class="accessibility-selector">
+                    <button id="accessibility-toggle" aria-label="Opções de acessibilidade">
+                        <i class="fa fa-universal-access" aria-hidden="true" alt="Acessibilidade"></i>
+                    </button>
+                    <ul id="accessibility-menu" class="hidden">
+                        <li id="increase-font">
+                            <i class="fa fa-plus-circle" aria-hidden="true" alt="Aumentar fonte"></i> Aumentar Fonte
+                        </li>
+                        <li id="decrease-font">
+                            <i class="fa fa-minus-circle" aria-hidden="true" alt="Diminuir fonte"></i> Diminuir Fonte
+                        </li>
+                        <li id="colorblind-filter">
+                            <i class="fa fa-low-vision" aria-hidden="true" alt="Filtro daltonismo"></i> Filtros
+                            Daltonismo
+                        </li>
+                        <li id="screen-reader">
+                            <i class="fa fa-assistive-listening-systems" alt="Leitura em voz" aria-hidden="true"></i>
+                            Leitura em Voz
+                        </li>
+
+                        <li id="reading-mask">
+                            <i class="fa fa-highlighter" aria-hidden="true" alt="Máscara de Leitura"></i> Máscara de
+                            leitura
+                        </li>
+
+                        <li id="bold-text">
+                            <i class="fa fa-bold" aria-hidden="true" alt="Letras destacadas"></i> Letras destacadas
+                        </li>
+
+                        <li id="high-contrast">
+                            <i class="fa fa-adjust" aria-hidden="true" alt="Alto contraste"></i> Alto contraste
+                        </li>
+
+                        <li id="increase-line">
+                            <i class="fa fa-arrows-alt-v" aria-hidden="true" alt="Aumentar Espaçamento Linhas"></i>
+                            Aumentar Espaçamento Linhas
+                        </li>
+
+                        <li id="decrease-line">
+                            <i class="fa fa-compress-arrows-alt" aria-hidden="true"
+                                alt="Diminuir Espaçamento Linhas"></i> Diminuir Espaçamento Linhas
+                        </li>
+
+                        <!--
+                        <li id="reading-mode">
+                            <i class="fa fa-book-open" aria-hidden="true" alt="Modo de leitura"></i> Modo de leitura
+                        </li>-->
+
+                        <li id="reset-accessibility">
+                            <i class="fa fa-undo" aria-hidden="true" alt="Redefinir acessibilidade"></i> Redefinir
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <button id="theme-toggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="contato.html" class="btn-primary">Entre em Contato</a>
+            </div>
+
+            <button class="mobile-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+
+        <div id="reading-mask-overlay">
+            <div class="highlight-window"></div>
+        </div>
+<!--
+        <button id="exit-reading-mode" aria-label="Sair do modo leitura" style="display:none;">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+-->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Tecnologia que une, <span class="hig hlight">inclusão que transforma</span></h1>
+                    <p>Na Manity Technology, desenvolvemos soluções tecnológicas que <br>ajudem e apoiem causas
+                        humanitárias.</p>
+                    <div class="hero-buttons">
+                        <a href="projetos.html" class="btn-primary">Veja nosso projeto</a>
+                        <a href="sobre.html" class="btn-secondary">Sobre Nós</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="innovation-image" id="model-container" data-model="./models/Manity.ply"></div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <section class="services">
+            <div class="container">
+                <h2 class="section-title">Nossos Serviços</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Desenvolvimento Web</h3>
+                        <p>Criamos sites e aplicações web modernas, responsivas e otimizadas para SEO.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Aplicativos Mobile</h3>
+                        <p>Desenvolvemos aplicativos nativos e híbridos para iOS e Android.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Banco de dados confiavél</h3>
+                        <p>Na manity, usamos bancos que armazenam seus dados de forma confiável.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Computing</h3>
+                        <p>Infraestrutura escalável e segura.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.svg" alt="logo manity Technology">
+                    </div>
+                    <span>Manity Technology</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navegação</h4>
+                        <ul>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="sobre.html">Sobre Nós</a></li>
+                            <li><a href="projetos.html">Projetos</a></li>
+                            <li><a href="contato.html">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contato</h4>
+                        <ul>
+                            <li><i class="fas fa-envelope"></i> contato@manity.tech</li>
+                            <li><i class="fas fa-phone"></i> +55 (11) 99999-9999</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Brasil</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Redes Sociais</h4>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Manity Technology. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/models.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

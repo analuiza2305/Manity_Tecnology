@@ -709,19 +709,19 @@ function initAccessibility() {
             toggleActive(readingMaskBtn, savedAccessibility.readingMask);
             saveAccessibility();
         });
-
+    
         document.addEventListener("mousemove", (e) => {
             if (readingMaskOverlay.style.display === "block") {
                 const highlight = readingMaskOverlay.querySelector(".highlight-window");
                 if (highlight) {
                     const height = highlight.offsetHeight;
-                    const top = e.pageY - height / 2; // usa pageY em vez de clientY
+                    const top = e.clientY - height / 2; // ✅ agora relativo à viewport
                     highlight.style.top = `${top}px`;
                 }
             }
         });
-        
     }
+    
 
     // === LETRAS DESTACADAS (aplica uma vez somente) ===
     if (boldTextBtn) {

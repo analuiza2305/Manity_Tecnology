@@ -1525,36 +1525,29 @@ footer {
 }
 
 /* ===== DALTONISMO ===== */
-body.colorblind-protanopia {
-    filter: url(#protanopia);
-}
+.colorblind-protanopia .page-wrapper { filter: url(#protanopia); }
 
-body.colorblind-deuteranopia {
-    filter: url(#deuteranopia);
-}
+.colorblind-deuteranopia .page-wrapper { filter: url(#deuteranopia); }
 
-body.colorblind-tritanopia {
-    filter: url(#tritanopia);
-}
+.colorblind-tritanopia .page-wrapper { filter: url(#tritanopia); }
 
-body.colorblind-Acromatopsia {
-    filter: url(#Acromatopsia);
-}
+.colorblind-Acromatopsia .page-wrapper { filter: url(#Acromatopsia); }
+
 
 /* fallback menos preciso quando SVG filter não for aplicado */
-body.colorblind-protanopia.fallback {
+.colorblind-protanopia.fallback .page-wrapper {
     filter: grayscale(0%) sepia(40%) saturate(80%) hue-rotate(10deg);
 }
 
-body.colorblind-deuteranopia.fallback {
+.colorblind-deuteranopia.fallback .page-wrapper {
     filter: grayscale(0%) sepia(30%) saturate(80%) hue-rotate(-10deg);
 }
 
-body.colorblind-tritanopia.fallback {
+.colorblind-tritanopia.fallback .page-wrapper {
     filter: grayscale(0%) sepia(20%) saturate(90%) hue-rotate(160deg);
 }
 
-body.colorblind-Acromatopsia.fallback {
+.colorblind-Acromatopsia.fallback .page-wrapper {
     filter: grayscale(100%);
 }
 
@@ -1643,3 +1636,4 @@ body.bold-text-active :not(#accessibility-menu):not(.accessibility-selector):not
         margin-top: var(--spacing-md);
     }
 }
+

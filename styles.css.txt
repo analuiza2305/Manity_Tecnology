@@ -1615,7 +1615,6 @@ body.bold-text-active :not(#accessibility-menu):not(.accessibility-selector):not
     line-height: auto !important;
 }
 
-
 @media (max-width: 1024px) {
     .project-card {
         grid-template-columns: 1fr;

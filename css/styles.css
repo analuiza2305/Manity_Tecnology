@@ -482,6 +482,47 @@ nav ul li a.active:after {
     z-index: 200;
 }
 
+.image-container {
+    position: relative;
+    animation: slideUp 0.8s ease forwards;
+
+}
+
+.hotspot {
+    position: absolute;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+    z-index: 100;
+    /*cor pra ver onde ta cada nome
+    background: rgba(255, 0, 0, 0.2);
+    outline: 1px dashed red;*/
+}
+
+.tooltip {
+    position: absolute;
+    padding: 6px 12px;
+    background: var(--green-dark, #064420);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 110;
+}
+
+body.dark-mode .tooltip {
+    background: var(--green-dark, #064420);
+    color: #fff;
+}
+
+.tooltip.show {
+    opacity: 1;
+    transform: translate(-50%, -110%);
+}
+
 .image-container img {
     width: 100%;
     height: auto;
@@ -490,7 +531,7 @@ nav ul li a.active:after {
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
     position: relative;
-    z-index: 2;
+    z-index: 21;
 }
 
 .innovation-image {
@@ -1528,13 +1569,21 @@ footer {
 }
 
 /* ===== DALTONISMO ===== */
-.colorblind-protanopia .page-wrapper { filter: url(#protanopia); }
+.colorblind-protanopia .page-wrapper {
+    filter: url(#protanopia);
+}
 
-.colorblind-deuteranopia .page-wrapper { filter: url(#deuteranopia); }
+.colorblind-deuteranopia .page-wrapper {
+    filter: url(#deuteranopia);
+}
 
-.colorblind-tritanopia .page-wrapper { filter: url(#tritanopia); }
+.colorblind-tritanopia .page-wrapper {
+    filter: url(#tritanopia);
+}
 
-.colorblind-Acromatopsia .page-wrapper { filter: url(#Acromatopsia); }
+.colorblind-Acromatopsia .page-wrapper {
+    filter: url(#Acromatopsia);
+}
 
 
 /* fallback menos preciso quando SVG filter não for aplicado */
@@ -1557,7 +1606,7 @@ footer {
 /* Máscara de leitura */
 
 #reading-mask-overlay {
-    display: none;          
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -1585,7 +1634,7 @@ footer {
 .reading-mask-active .btn-primary.btn-full,
 .reading-mask-active .faq-item {
     background-color: transparent !important;
-    box-shadow: none !important; 
+    box-shadow: none !important;
 }
 
 
@@ -1599,6 +1648,7 @@ body.bold-text-active :not(#accessibility-menu):not(.accessibility-selector):not
     background-color: #000 !important;
     color: #fff !important;
 }
+
 .high-contrast-active a {
     color: yellow !important;
 }
@@ -1607,6 +1657,7 @@ body.bold-text-active :not(#accessibility-menu):not(.accessibility-selector):not
 .line-spacing-lg * {
     line-height: 2 !important;
 }
+
 .line-spacing-sm * {
     line-height: 1.2 !important;
 }
@@ -1640,4 +1691,3 @@ body.bold-text-active :not(#accessibility-menu):not(.accessibility-selector):not
         margin-top: var(--spacing-md);
     }
 }
-

@@ -79,7 +79,7 @@ body {
     background-color: var(--background-color);
     line-height: 1.6;
     transition: background-color var(--transition-normal), color var(--transition-normal);
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 }
 
 a {

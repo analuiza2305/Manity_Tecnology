@@ -1,6 +1,4 @@
-// Esperar que o DOM seja completamente carregado
 document.addEventListener('DOMContentLoaded', function () {
-    // Inicializar todas as funcionalidades
     initThemeToggle();
     initMobileMenu();
     initParticles();
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initAccessibility();
 });
 
-// Alternar entre modo claro e escuro
 function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -19,7 +16,6 @@ function initThemeToggle() {
 
     let savedTheme = localStorage.getItem('theme') || 'light';
 
-    // Normaliza body: só mantém a classe correspondente
     body.classList.remove('light-mode', 'dark-mode');
     body.classList.add(savedTheme + "-mode");
 
@@ -73,7 +69,6 @@ function initMobileMenu() {
     }
 }
 
-// Inicializar particles.js
 function initParticles() {
     if (document.getElementById('particles-js')) {
         particlesJS('particles-js', {
@@ -102,7 +97,6 @@ function initParticles() {
     }
 }
 
-// Animações ao rolar a página
 function initScrollAnimations() {
     const animatedElements = document.querySelectorAll(
         '.service-card, .value-card, .team-member, .faq-item, .about-image, .about-text'
@@ -137,7 +131,6 @@ function initContactForm() {
             const data = {};
             for (let [key, value] of formData.entries()) data[key] = value;
 
-            // Montar mensagem formatada
             const msg =
                 `*Nome*: ${data.name}
 *Sobrenome*: ${data.lastname}
@@ -162,8 +155,6 @@ function initContactForm() {
     }
 }
 
-
-// Partículas flutuantes decorativas
 function createFloatingParticles() {
     const container = document.querySelector('main');
     if (!container) return;
@@ -189,7 +180,6 @@ function createFloatingParticles() {
     }
 }
 
-// Gradiente animado em textos
 function initGradientText() {
     const gradientTexts = document.querySelectorAll('.highlight');
     gradientTexts.forEach(text => {
@@ -202,7 +192,6 @@ function initGradientText() {
     });
 }
 
-// Scroll suave
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -340,19 +329,16 @@ function initLanguageSelector() {
     applyTranslation(currentLang);
 }
 
-// ===== Corrigido: Função de animação de máquina de escrever =====
 const activeTypeWriters = new WeakMap();
 
 function typeWriter(element, newText, speed = 25) {
     if (!element) return;
 
-    // Cancela animações anteriores deste elemento
     if (activeTypeWriters.has(element)) {
         activeTypeWriters.get(element).forEach(id => clearTimeout(id));
     }
     activeTypeWriters.set(element, []);
 
-    // Se for input/textarea com placeholder
     if ((element.tagName === "INPUT" || element.tagName === "TEXTAREA") && element.placeholder !== undefined) {
         let placeholder = "";
         element.placeholder = "";
@@ -366,7 +352,6 @@ function typeWriter(element, newText, speed = 25) {
         return;
     }
 
-    // Para textos normais
     element.textContent = "";
     [...newText].forEach((char, index) => {
         const id = setTimeout(() => {
@@ -379,7 +364,6 @@ function typeWriter(element, newText, speed = 25) {
 // Carregar traduções externas
 async function applyTranslation(lang) {
     try {
-        // Detectar se está rodando em subpasta (GitHub Pages) ou na raiz (Netlify)
         const basePath = window.location.pathname.includes("Manity_Tecnology")
             ? "/Manity_Tecnology"
             : "";
@@ -527,14 +511,13 @@ function initAccessibility() {
 
     accToggle.addEventListener("click", () => accMenu.classList.toggle("hidden"));
 
-    // === CONFIGURAÇÕES INICIAIS SALVAS / FALLBACKS ===
     let settings = {
         fontSize: parseFloat(localStorage.getItem("fontSize")) || parseFloat(getComputedStyle(document.body).fontSize),
         colorblind: localStorage.getItem("colorblind") || "Filtros Daltonismo",
         screenReader: localStorage.getItem("screenReader") === "true"
     };
 
-    // === CONTROLE DE FONTE ===
+    //  CONTROLE DE FONTE 
     const increaseBtn = document.getElementById("increase-font");
     const decreaseBtn = document.getElementById("decrease-font");
     const defaultFontSize = parseFloat(getComputedStyle(document.body).fontSize);
@@ -569,7 +552,7 @@ function initAccessibility() {
     if (increaseBtn) increaseBtn.addEventListener("click", () => { changeFontSize(2); updateFontButtons(); localStorage.setItem("fontSize", currentFontSize); });
     if (decreaseBtn) decreaseBtn.addEventListener("click", () => { changeFontSize(-2); updateFontButtons(); localStorage.setItem("fontSize", currentFontSize); });
 
-    // === FILTROS DE DALTONISMO ===
+    //  FILTROS DE DALTONISMO
     const modes = [
         { name: "Filtros Daltonismo", className: "" },
         { name: "Protanopia", className: "colorblind-protanopia" },
@@ -585,7 +568,7 @@ function initAccessibility() {
     function applyColorblindMode(index) {
         const classesToRemove = modes.map(m => m.className).filter(Boolean);
         if (classesToRemove.length) document.body.classList.remove(...classesToRemove);
-    
+
         const mode = modes[index];
         if (mode.className) {
             document.body.classList.add(mode.className);
@@ -593,17 +576,17 @@ function initAccessibility() {
         } else {
             if (colorblindBtn) colorblindBtn.classList.remove("active");
         }
-    
+
         if (colorblindBtn) {
             colorblindBtn.innerHTML = `<i class="fa fa-low-vision" aria-hidden="true"></i> ${mode.name}`;
         }
         localStorage.setItem("colorblindMode", mode.name);
     }
-    
+
     applyColorblindMode(currentModeIndex);
     if (colorblindBtn) colorblindBtn.addEventListener("click", () => { currentModeIndex = (currentModeIndex + 1) % modes.length; applyColorblindMode(currentModeIndex); });
 
-    // === LEITURA EM VOZ ===
+    //  LEITURA EM VOZ 
     const screenReaderBtn = document.getElementById("screen-reader");
     let speechEnabled = settings.screenReader;
     let navigationMode = "mouse";
@@ -657,12 +640,12 @@ function initAccessibility() {
     window.addEventListener("keydown", (e) => { if (e.key === "Tab") navigationMode = "tab"; });
     window.addEventListener("mousemove", () => { navigationMode = "mouse"; });
 
-    // === ESCONDER MENU AO CLICAR FORA ===
+    //  ESCONDER MENU AO CLICAR FORA 
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".accessibility-selector")) accMenu.classList.add("hidden");
     });
 
-    // === BOTÕES DO MENU ===
+    //  BOTÕES DO MENU 
     const readingMaskBtn = document.getElementById("reading-mask");
     const boldTextBtn = document.getElementById("bold-text");
     const highContrastBtn = document.getElementById("high-contrast");
@@ -673,7 +656,6 @@ function initAccessibility() {
     const exitReadingModeBtn = document.getElementById("exit-reading-mode");
     const readingMaskOverlay = document.getElementById("reading-mask-overlay");
 
-    // estado salvo (persistência)
     let savedAccessibility = JSON.parse(localStorage.getItem("accessibilitySettings")) || {
         readingMask: false,
         boldText: false,
@@ -686,7 +668,7 @@ function initAccessibility() {
         localStorage.setItem("accessibilitySettings", JSON.stringify(savedAccessibility));
     }
 
-    // === RESTAURA ESTADOS INICIAIS (UI + CLASSES) ===
+    //  RESTAURA ESTADOS INICIAIs
     if (readingMaskOverlay) readingMaskOverlay.style.display = savedAccessibility.readingMask ? "block" : "none";
     document.body.classList.toggle("bold-text-active", !!savedAccessibility.boldText);
     document.body.classList.toggle("high-contrast-active", !!savedAccessibility.highContrast);
@@ -694,17 +676,15 @@ function initAccessibility() {
     document.body.classList.toggle("line-spacing-sm", savedAccessibility.lineSpacing === "small");
     document.body.classList.toggle("reading-mode-active", !!savedAccessibility.readingMode);
 
-    // função utilitária para atualizar estado visual do li
     function toggleActive(liEl, cond) { if (!liEl) return; liEl.classList.toggle("active", !!cond); }
 
-    // garante que os botões do menu reflitam o estado salvo
     toggleActive(boldTextBtn, savedAccessibility.boldText);
     toggleActive(highContrastBtn, savedAccessibility.highContrast);
     toggleActive(readingMaskBtn, savedAccessibility.readingMask);
     toggleActive(increaseLineBtn, savedAccessibility.lineSpacing === "large");
     toggleActive(decreaseLineBtn, savedAccessibility.lineSpacing === "small");
 
-    // === MÁSCARA DE LEITURA (overlay + classe) ===
+    // MÁSCARA DE LEITURA 
     if (readingMaskBtn && readingMaskOverlay) {
         readingMaskBtn.addEventListener("click", () => {
             const currently = readingMaskOverlay.style.display === "block";
@@ -714,21 +694,21 @@ function initAccessibility() {
             toggleActive(readingMaskBtn, savedAccessibility.readingMask);
             saveAccessibility();
         });
-    
+
         document.addEventListener("mousemove", (e) => {
             if (readingMaskOverlay.style.display === "block") {
                 const highlight = readingMaskOverlay.querySelector(".highlight-window");
                 if (highlight) {
                     const height = highlight.offsetHeight;
-                    const top = e.clientY - height / 2; // ✅ agora relativo à viewport
+                    const top = e.clientY - height / 2; 
                     highlight.style.top = `${top}px`;
                 }
             }
         });
     }
-    
 
-    // === LETRAS DESTACADAS (aplica uma vez somente) ===
+
+    // === LETRAS DESTACADAS  ===
     if (boldTextBtn) {
         boldTextBtn.addEventListener("click", () => {
             const now = !document.body.classList.contains("bold-text-active");
@@ -750,7 +730,7 @@ function initAccessibility() {
         });
     }
 
-    // === ESPAÇAMENTO DE LINHAS (3 estados: small | normal | large) ===
+    //  ESPAÇAMENTO DE LINHAS 
     function applyLineSpacing(state) {
         document.body.classList.remove("line-spacing-sm", "line-spacing-normal", "line-spacing-lg");
         if (state === "small") document.body.classList.add("line-spacing-sm");
@@ -771,7 +751,7 @@ function initAccessibility() {
     });
     applyLineSpacing(savedAccessibility.lineSpacing || "normal");
 
-    // === MODO LEITURA (botão + botão sair) ===
+    // === MODO LEITURA===
     function applyReadingMode(state) {
         document.body.classList.toggle("reading-mode-active", !!state);
         if (exitReadingModeBtn) exitReadingModeBtn.style.display = state ? "flex" : "none";
@@ -786,10 +766,10 @@ function initAccessibility() {
     if (resetBtn) {
         resetBtn.addEventListener("click", () => {
             const removeClasses = [
-                "reading-mask-active","bold-text-active","high-contrast-active",
-                "line-spacing-lg","line-spacing-sm","line-spacing-normal","reading-mode-active",
-                "colorblind-protanopia","colorblind-deuteranopia","colorblind-tritanopia",
-                "colorblind-Acromatopsia","fallback"
+                "reading-mask-active", "bold-text-active", "high-contrast-active",
+                "line-spacing-lg", "line-spacing-sm", "line-spacing-normal", "reading-mode-active",
+                "colorblind-protanopia", "colorblind-deuteranopia", "colorblind-tritanopia",
+                "colorblind-Acromatopsia", "fallback"
             ];
             document.body.classList.remove(...removeClasses);
             if (readingMaskOverlay) readingMaskOverlay.style.display = "none";
@@ -809,3 +789,77 @@ function initAccessibility() {
         });
     }
 }
+
+function initHotspots() {
+    const containers = document.querySelectorAll(".image-container");
+  
+    containers.forEach(container => {
+      const hotspots = container.querySelectorAll(".hotspot");
+      if (!hotspots || hotspots.length === 0) return;
+  
+      let tooltip = container.querySelector(".tooltip");
+      if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.className = "tooltip";
+        container.appendChild(tooltip);
+      }
+  
+      function positionTooltip(hotspot) {
+        const hRect = hotspot.getBoundingClientRect();
+        const cRect = container.getBoundingClientRect();
+        tooltip.textContent = hotspot.dataset.name || "";
+  
+        const centerX = hRect.left + hRect.width / 2;
+        const left = centerX - cRect.left; // relativo ao container
+        const top = hRect.top - cRect.top; // topo do hotspot relativo ao container
+  
+        tooltip.style.left = left + "px";
+        tooltip.style.top = top + "px";
+  
+        const tipRect = tooltip.getBoundingClientRect();
+        const overflowLeft = tipRect.left < 8;
+        const overflowRight = tipRect.right > (window.innerWidth - 8);
+        if (overflowLeft) {
+          tooltip.style.left = (left + (8 - tipRect.left)) + "px";
+        } else if (overflowRight) {
+          tooltip.style.left = (left - (tipRect.right - (window.innerWidth - 8))) + "px";
+        }
+      }
+  
+      hotspots.forEach(h => {
+        if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "0");
+  
+        h.addEventListener("mouseenter", () => {
+          positionTooltip(h);
+          tooltip.classList.add("show");
+        });
+        h.addEventListener("mousemove", () => {
+          positionTooltip(h);
+        });
+        h.addEventListener("mouseleave", () => {
+          tooltip.classList.remove("show");
+        });
+  
+        h.addEventListener("focus", () => {
+          positionTooltip(h);
+          tooltip.classList.add("show");
+        });
+        h.addEventListener("blur", () => {
+          tooltip.classList.remove("show");
+        });
+      });
+  
+      window.addEventListener("resize", () => {
+        const visible = tooltip.classList.contains("show");
+        if (visible) {
+          const activeHot = Array.from(hotspots).find(hs => hs.matches(":hover") || hs === document.activeElement);
+          if (activeHot) positionTooltip(activeHot);
+        }
+      });
+    });
+  }
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof initHotspots === "function") initHotspots();
+  });
+  

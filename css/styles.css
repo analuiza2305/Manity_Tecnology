@@ -46,7 +46,6 @@
     --footer-height: 300px;
 }
 
-/* Modo Escuro */
 .dark-mode {
     --primary-color: #94cc8a;
     --primary-color-dark: #7ab970;
@@ -78,6 +77,18 @@ body {
     line-height: 1.6;
     transition: background-color var(--transition-normal), color var(--transition-normal);
     overflow-x: hidden !important;
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+html,
+body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
@@ -141,8 +152,8 @@ p {
 }
 
 main {
-    padding-bottom: 80px;
-  }
+    flex: 1;
+}
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -177,11 +188,11 @@ main {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-  }
-  
-  .page-wrapper main {
+}
+
+.page-wrapper main {
     flex: 1;
-  }
+}
 
 .section-title {
     text-align: center;
@@ -497,6 +508,16 @@ nav ul li a.active:after {
 }
 
 /*PAGINA SOBRE*/
+
+#ods5-container {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    box-sizing: border-box;
+}
+
 .about-content {
     padding: var(--spacing-xxl) 0;
 }
@@ -506,6 +527,7 @@ nav ul li a.active:after {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-xxl);
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .about-text h2 {
@@ -519,6 +541,13 @@ nav ul li a.active:after {
 .about-image {
     position: relative;
     z-index: 200;
+}
+
+.about-image,
+.about-text {
+    flex: 1 1 100%;
+    /* ocupa largura total em telas pequenas */
+    text-align: center;
 }
 
 .image-container {
@@ -763,7 +792,8 @@ body.dark-mode .tooltip {
     background-color: var(--background-color-alt);
     text-align: center;
     transition: background-color var(--transition-normal);
-    margin-bottom: 0; /* evita colapso */
+    margin-bottom: 0;
+    /* evita colapso */
 
 }
 
@@ -1044,6 +1074,7 @@ footer {
     transition: transform 0.2s linear;
     display: block;
 }
+
 
 
 /*ANIMACAO MODELO3D*/

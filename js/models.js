@@ -1,11 +1,10 @@
-console.log("🔥 models.js carregado");
+console.log("models.js carregado");
 
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { PLYLoader } from "three/addons/loaders/PLYLoader.js";
 
 window.addEventListener("DOMContentLoaded", () => {
-    // Seleciona todos os containers de modelo
     const containers = document.querySelectorAll("[data-model]");
 
     containers.forEach(container => {
@@ -15,21 +14,17 @@ window.addEventListener("DOMContentLoaded", () => {
         const width = container.clientWidth || 600;
         const height = container.clientHeight || 400;
 
-        // Cena
         const scene = new THREE.Scene();
         scene.background = null;
 
-        // Câmera
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
         camera.position.set(0, 1, 3);
 
-        // Renderizador
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(width, height);
         container.appendChild(renderer.domElement);
 
-        // Luzes
         const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
         hemiLight.position.set(0, 20, 0);
         scene.add(hemiLight);
@@ -38,13 +33,11 @@ window.addEventListener("DOMContentLoaded", () => {
         dirLight.position.set(5, 10, 7.5);
         scene.add(dirLight);
 
-        // Controles (desativados)
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.enabled = false;
 
-        // Variáveis
         let mesh = null;
         const material = new THREE.MeshStandardMaterial({
             vertexColors: true,
@@ -52,7 +45,6 @@ window.addEventListener("DOMContentLoaded", () => {
             roughness: 1
         });
 
-        // Loop de animação
         function animate() {
             requestAnimationFrame(animate);
             if (mesh) {
@@ -63,26 +55,23 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         animate();
 
-        // Carregar modelo PLY
         const loader = new PLYLoader();
         loader.load(
             modelPath,
             (geometry) => {
-                console.log(`✅ Modelo carregado: ${modelPath}`);
+                console.log(`Modelo carregado: ${modelPath}`);
 
                 geometry.computeVertexNormals();
                 mesh = new THREE.Mesh(geometry, material);
 
                 mesh.scale.set(1.25, 1.25, 1.25);
 
-                // Centralizar
                 geometry.computeBoundingBox();
                 const box = geometry.boundingBox;
                 const center = new THREE.Vector3();
                 box.getCenter(center);
                 mesh.position.sub(center);
 
-                // Ajustar câmera
                 const size = new THREE.Vector3();
                 box.getSize(size);
                 const maxDim = Math.max(size.x, size.y, size.z);
@@ -94,19 +83,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
                 scene.add(mesh);
 
-                // Animação de surgimento
                 setTimeout(() => {
                     container.classList.add("loaded");
                 }, 100);
 
-                // Atualizar cor conforme tema
                 updateMaterialTheme();
             },
             undefined,
-            (err) => console.error(`❌ Erro ao carregar ${modelPath}:`, err)
+            (err) => console.error(`Erro ao carregar ${modelPath}:`, err)
         );
 
-        // Função para trocar cor no dark/light
         function updateMaterialTheme() {
             if (!mesh) return;
             if (document.body.classList.contains("dark-mode")) {
@@ -119,7 +105,6 @@ window.addEventListener("DOMContentLoaded", () => {
             material.needsUpdate = true;
         }
 
-        // Observar mudanças de tema
         const themeToggle = document.getElementById("theme-toggle");
         if (themeToggle) {
             themeToggle.addEventListener("click", () => {
@@ -127,7 +112,6 @@ window.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Responsividade
         window.addEventListener("resize", () => {
             const w = container.clientWidth || 600;
             const h = container.clientHeight || 400;

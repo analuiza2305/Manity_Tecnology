@@ -19,7 +19,6 @@ function initThemeToggle() {
     body.classList.remove('light-mode', 'dark-mode');
     body.classList.add(savedTheme + "-mode");
 
-    // Atualiza ícone
     if (savedTheme === 'dark') {
         icon.classList.remove('fa-moon');
         icon.classList.add('fa-sun');
@@ -44,7 +43,6 @@ function initThemeToggle() {
     });
 }
 
-// Menu mobile
 function initMobileMenu() {
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('nav');
@@ -120,7 +118,6 @@ function initScrollAnimations() {
     window.addEventListener('scroll', handleScroll);
 }
 
-// Formulário de contato
 function initContactForm() {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
@@ -133,12 +130,11 @@ function initContactForm() {
 
             const msg =
                 `*Nome*: ${data.name}
-*Sobrenome*: ${data.lastname}
-*Email*: ${data.email}
-*Empresa*: ${data.company || "-"}
-*Assunto*: ${data.subject}
-*Mensagem*: ${data.message}`;
-
+                 *Sobrenome*: ${data.lastname}   
+                 *Email*: ${data.email}
+                 *Empresa*: ${data.company || "-"}
+                 *Assunto*: ${data.subject}
+                 *Mensagem*: ${data.message}`;
             const sendOption = formData.get("sendOption");
 
             if (sendOption === "email") {
@@ -175,7 +171,7 @@ function createFloatingParticles() {
             pointer-events: none;
             z-index: 1;
             animation: float ${Math.random() * 10 + 10}s infinite ease-in-out;
-        `;
+            `;
         container.appendChild(particle);
     }
 }
@@ -204,7 +200,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Sombras modernas
 function addModernEffects() {
     const cards = document.querySelectorAll('.service-card, .value-card, .team-member');
     cards.forEach(card => {
@@ -217,7 +212,6 @@ function addModernEffects() {
     });
 }
 
-// Profundidade nos cards
 function addDepthEffect() {
     const cards = document.querySelectorAll('.service-card, .value-card');
     cards.forEach(card => {
@@ -244,38 +238,61 @@ window.addEventListener('load', function () {
     addDepthEffect();
 });
 
-// Rotação da logo
 function initLogoRotation() {
     const logo = document.querySelector('.logo');
     const logoIcon = document.querySelector('.logo-icon img');
     if (!logo || !logoIcon) return;
 
     let isHovering = false;
-    let currentRotation = 0;
     let spinSpeed = 0;
     let animationFrame;
+
+    let currentRotation = parseFloat(localStorage.getItem("logoRotation")) || 0;
+    logoIcon.style.transform = `rotate(${currentRotation}deg)`;
+
+    let loadTargetRotation = currentRotation + 180;
+    let inLoadAnimation = true;
 
     function animate() {
         if (isHovering) {
             spinSpeed = 5;
+            inLoadAnimation = false;
+        } else if (inLoadAnimation) {
+            const diff = loadTargetRotation - currentRotation;
+            if (Math.abs(diff) > 0.5) {
+                spinSpeed = diff * 0.08;
+            } else {
+                spinSpeed *= 0.9;
+                if (Math.abs(spinSpeed) < 0.05) {
+                    spinSpeed = 0;
+                    inLoadAnimation = false;
+                }
+            }
         } else {
             spinSpeed *= 0.95;
             if (Math.abs(spinSpeed) < 0.05) spinSpeed = 0;
         }
+
         currentRotation += spinSpeed;
         logoIcon.style.transform = `rotate(${currentRotation}deg)`;
-        if (spinSpeed !== 0 || isHovering) {
+
+        localStorage.setItem("logoRotation", currentRotation);
+
+        if (spinSpeed !== 0 || isHovering || inLoadAnimation) {
             animationFrame = requestAnimationFrame(animate);
         } else {
             cancelAnimationFrame(animationFrame);
         }
     }
 
+    animationFrame = requestAnimationFrame(animate);
+
     logo.addEventListener('mouseenter', () => {
         isHovering = true;
         cancelAnimationFrame(animationFrame);
         animationFrame = requestAnimationFrame(animate);
     });
+
     logo.addEventListener('mouseleave', () => {
         isHovering = false;
         cancelAnimationFrame(animationFrame);
@@ -283,7 +300,6 @@ function initLogoRotation() {
     });
 }
 
-// Seleção de idioma
 function initLanguageSelector() {
     const toggleBtn = document.getElementById('language-toggle');
     const flag = toggleBtn.querySelector('.flag-icon');
@@ -361,7 +377,6 @@ function typeWriter(element, newText, speed = 25) {
     });
 }
 
-// Carregar traduções externas
 async function applyTranslation(lang) {
     try {
         const basePath = window.location.pathname.includes("Manity_Tecnology")
@@ -371,23 +386,19 @@ async function applyTranslation(lang) {
         const res = await fetch(`${basePath}/linguagens/${lang}.json`);
         const t = await res.json();
 
-        // Header
         typeWriter(document.querySelector('nav ul li a[href="index.html"]'), t.header.nav_home);
         typeWriter(document.querySelector('nav ul li a[href="sobre.html"]'), t.header.nav_about);
         typeWriter(document.querySelector('nav ul li a[href="projetos.html"]'), t.header.nav_projects);
         typeWriter(document.querySelector('nav ul li a[href="contato.html"]'), t.header.nav_contact);
         typeWriter(document.querySelector('.btn-primary[href="contato.html"]'), t.header.btn_contact);
 
-        // Footer
         typeWriter(document.querySelectorAll('.footer-column h4')[0], t.footer.nav);
         typeWriter(document.querySelectorAll('.footer-column h4')[1], t.footer.contact);
         typeWriter(document.querySelectorAll('.footer-column h4')[2], t.footer.social);
         typeWriter(document.querySelector('.footer-bottom p'), t.footer.rights);
 
-        // 🔎 Verificar qual página está aberta
         const path = window.location.pathname;
 
-        // Página inicial (index.html ou /)
         if (path.includes("index.html") || path.endsWith("/") || path.endsWith("/index")) {
             typeWriter(document.querySelector('.hero h1'), t.hero.title, 35);
             typeWriter(document.querySelector('.hero p'), t.hero.desc, 20);
@@ -403,7 +414,6 @@ async function applyTranslation(lang) {
             });
         }
 
-        // Página sobre
         if (path.includes("sobre.html") || path.endsWith("/sobre")) {
             typeWriter(document.querySelector('.about-hero h1'), t.about.hero_title, 35);
             typeWriter(document.querySelector('.about-hero p'), t.about.hero_desc, 20);
@@ -427,7 +437,6 @@ async function applyTranslation(lang) {
             typeWriter(document.querySelector('.team .section-title'), t.about.team_title);
         }
 
-        // Página projetos
         if (path.includes("projetos.html") || path.endsWith("/projetos")) {
             typeWriter(document.querySelector('.projects-hero h1'), t.projects.hero_title, 35);
             typeWriter(document.querySelector('.projects-hero p'), t.projects.hero_desc, 20);
@@ -443,7 +452,6 @@ async function applyTranslation(lang) {
             typeWriter(document.querySelector('.cta a.btn-primary'), t.projects.cta_btn);
         }
 
-        // Página contato
         if (path.includes("contato.html") || path.endsWith("/contato")) {
             typeWriter(document.querySelector('.contact-hero h1'), t.contact.hero_title, 35);
             typeWriter(document.querySelector('.contact-hero p'), t.contact.hero_desc, 20);
@@ -517,7 +525,6 @@ function initAccessibility() {
         screenReader: localStorage.getItem("screenReader") === "true"
     };
 
-    //  CONTROLE DE FONTE 
     const increaseBtn = document.getElementById("increase-font");
     const decreaseBtn = document.getElementById("decrease-font");
     const defaultFontSize = parseFloat(getComputedStyle(document.body).fontSize);
@@ -552,7 +559,7 @@ function initAccessibility() {
     if (increaseBtn) increaseBtn.addEventListener("click", () => { changeFontSize(2); updateFontButtons(); localStorage.setItem("fontSize", currentFontSize); });
     if (decreaseBtn) decreaseBtn.addEventListener("click", () => { changeFontSize(-2); updateFontButtons(); localStorage.setItem("fontSize", currentFontSize); });
 
-    //  FILTROS DE DALTONISMO
+    //FILTROS DALTONISMO
     const modes = [
         { name: "Filtros Daltonismo", className: "" },
         { name: "Protanopia", className: "colorblind-protanopia" },
@@ -586,7 +593,7 @@ function initAccessibility() {
     applyColorblindMode(currentModeIndex);
     if (colorblindBtn) colorblindBtn.addEventListener("click", () => { currentModeIndex = (currentModeIndex + 1) % modes.length; applyColorblindMode(currentModeIndex); });
 
-    //  LEITURA EM VOZ 
+    //LEITURA VOZ 
     const screenReaderBtn = document.getElementById("screen-reader");
     let speechEnabled = settings.screenReader;
     let navigationMode = "mouse";
@@ -640,12 +647,11 @@ function initAccessibility() {
     window.addEventListener("keydown", (e) => { if (e.key === "Tab") navigationMode = "tab"; });
     window.addEventListener("mousemove", () => { navigationMode = "mouse"; });
 
-    //  ESCONDER MENU AO CLICAR FORA 
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".accessibility-selector")) accMenu.classList.add("hidden");
     });
 
-    //  BOTÕES DO MENU 
+    //MENU 
     const readingMaskBtn = document.getElementById("reading-mask");
     const boldTextBtn = document.getElementById("bold-text");
     const highContrastBtn = document.getElementById("high-contrast");
@@ -668,7 +674,7 @@ function initAccessibility() {
         localStorage.setItem("accessibilitySettings", JSON.stringify(savedAccessibility));
     }
 
-    //  RESTAURA ESTADOS INICIAIs
+    //redefinir
     if (readingMaskOverlay) readingMaskOverlay.style.display = savedAccessibility.readingMask ? "block" : "none";
     document.body.classList.toggle("bold-text-active", !!savedAccessibility.boldText);
     document.body.classList.toggle("high-contrast-active", !!savedAccessibility.highContrast);
@@ -684,7 +690,7 @@ function initAccessibility() {
     toggleActive(increaseLineBtn, savedAccessibility.lineSpacing === "large");
     toggleActive(decreaseLineBtn, savedAccessibility.lineSpacing === "small");
 
-    // MÁSCARA DE LEITURA 
+    //MÁSCARA LEITURA 
     if (readingMaskBtn && readingMaskOverlay) {
         readingMaskBtn.addEventListener("click", () => {
             const currently = readingMaskOverlay.style.display === "block";
@@ -700,7 +706,7 @@ function initAccessibility() {
                 const highlight = readingMaskOverlay.querySelector(".highlight-window");
                 if (highlight) {
                     const height = highlight.offsetHeight;
-                    const top = e.clientY - height / 2; 
+                    const top = e.clientY - height / 2;
                     highlight.style.top = `${top}px`;
                 }
             }
@@ -708,7 +714,7 @@ function initAccessibility() {
     }
 
 
-    // === LETRAS DESTACADAS  ===
+    //lETRAS DESTACADAS
     if (boldTextBtn) {
         boldTextBtn.addEventListener("click", () => {
             const now = !document.body.classList.contains("bold-text-active");
@@ -719,7 +725,7 @@ function initAccessibility() {
         });
     }
 
-    // === ALTO CONTRASTE ===
+    //ALTO CONTRASTE
     if (highContrastBtn) {
         highContrastBtn.addEventListener("click", () => {
             const now = !document.body.classList.contains("high-contrast-active");
@@ -730,7 +736,7 @@ function initAccessibility() {
         });
     }
 
-    //  ESPAÇAMENTO DE LINHAS 
+    //ESPAÇAMENTO
     function applyLineSpacing(state) {
         document.body.classList.remove("line-spacing-sm", "line-spacing-normal", "line-spacing-lg");
         if (state === "small") document.body.classList.add("line-spacing-sm");
@@ -751,7 +757,7 @@ function initAccessibility() {
     });
     applyLineSpacing(savedAccessibility.lineSpacing || "normal");
 
-    // === MODO LEITURA===
+    //MODO LEITURA
     function applyReadingMode(state) {
         document.body.classList.toggle("reading-mode-active", !!state);
         if (exitReadingModeBtn) exitReadingModeBtn.style.display = state ? "flex" : "none";
@@ -762,7 +768,7 @@ function initAccessibility() {
     if (exitReadingModeBtn) exitReadingModeBtn.addEventListener("click", () => applyReadingMode(false));
     if (savedAccessibility.readingMode) applyReadingMode(true);
 
-    // === RESET ===
+    //RESET
     if (resetBtn) {
         resetBtn.addEventListener("click", () => {
             const removeClasses = [
@@ -792,74 +798,73 @@ function initAccessibility() {
 
 function initHotspots() {
     const containers = document.querySelectorAll(".image-container");
-  
+
     containers.forEach(container => {
-      const hotspots = container.querySelectorAll(".hotspot");
-      if (!hotspots || hotspots.length === 0) return;
-  
-      let tooltip = container.querySelector(".tooltip");
-      if (!tooltip) {
-        tooltip = document.createElement("div");
-        tooltip.className = "tooltip";
-        container.appendChild(tooltip);
-      }
-  
-      function positionTooltip(hotspot) {
-        const hRect = hotspot.getBoundingClientRect();
-        const cRect = container.getBoundingClientRect();
-        tooltip.textContent = hotspot.dataset.name || "";
-  
-        const centerX = hRect.left + hRect.width / 2;
-        const left = centerX - cRect.left; // relativo ao container
-        const top = hRect.top - cRect.top; // topo do hotspot relativo ao container
-  
-        tooltip.style.left = left + "px";
-        tooltip.style.top = top + "px";
-  
-        const tipRect = tooltip.getBoundingClientRect();
-        const overflowLeft = tipRect.left < 8;
-        const overflowRight = tipRect.right > (window.innerWidth - 8);
-        if (overflowLeft) {
-          tooltip.style.left = (left + (8 - tipRect.left)) + "px";
-        } else if (overflowRight) {
-          tooltip.style.left = (left - (tipRect.right - (window.innerWidth - 8))) + "px";
+        const hotspots = container.querySelectorAll(".hotspot");
+        if (!hotspots || hotspots.length === 0) return;
+
+        let tooltip = container.querySelector(".tooltip");
+        if (!tooltip) {
+            tooltip = document.createElement("div");
+            tooltip.className = "tooltip";
+            container.appendChild(tooltip);
         }
-      }
-  
-      hotspots.forEach(h => {
-        if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "0");
-  
-        h.addEventListener("mouseenter", () => {
-          positionTooltip(h);
-          tooltip.classList.add("show");
-        });
-        h.addEventListener("mousemove", () => {
-          positionTooltip(h);
-        });
-        h.addEventListener("mouseleave", () => {
-          tooltip.classList.remove("show");
-        });
-  
-        h.addEventListener("focus", () => {
-          positionTooltip(h);
-          tooltip.classList.add("show");
-        });
-        h.addEventListener("blur", () => {
-          tooltip.classList.remove("show");
-        });
-      });
-  
-      window.addEventListener("resize", () => {
-        const visible = tooltip.classList.contains("show");
-        if (visible) {
-          const activeHot = Array.from(hotspots).find(hs => hs.matches(":hover") || hs === document.activeElement);
-          if (activeHot) positionTooltip(activeHot);
+
+        function positionTooltip(hotspot) {
+            const hRect = hotspot.getBoundingClientRect();
+            const cRect = container.getBoundingClientRect();
+            tooltip.textContent = hotspot.dataset.name || "";
+
+            const centerX = hRect.left + hRect.width / 2;
+            const left = centerX - cRect.left;
+            const top = hRect.top - cRect.top;
+
+            tooltip.style.left = left + "px";
+            tooltip.style.top = top + "px";
+
+            const tipRect = tooltip.getBoundingClientRect();
+            const overflowLeft = tipRect.left < 8;
+            const overflowRight = tipRect.right > (window.innerWidth - 8);
+            if (overflowLeft) {
+                tooltip.style.left = (left + (8 - tipRect.left)) + "px";
+            } else if (overflowRight) {
+                tooltip.style.left = (left - (tipRect.right - (window.innerWidth - 8))) + "px";
+            }
         }
-      });
+
+        hotspots.forEach(h => {
+            if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "0");
+
+            h.addEventListener("mouseenter", () => {
+                positionTooltip(h);
+                tooltip.classList.add("show");
+            });
+            h.addEventListener("mousemove", () => {
+                positionTooltip(h);
+            });
+            h.addEventListener("mouseleave", () => {
+                tooltip.classList.remove("show");
+            });
+
+            h.addEventListener("focus", () => {
+                positionTooltip(h);
+                tooltip.classList.add("show");
+            });
+            h.addEventListener("blur", () => {
+                tooltip.classList.remove("show");
+            });
+        });
+
+        window.addEventListener("resize", () => {
+            const visible = tooltip.classList.contains("show");
+            if (visible) {
+                const activeHot = Array.from(hotspots).find(hs => hs.matches(":hover") || hs === document.activeElement);
+                if (activeHot) positionTooltip(activeHot);
+            }
+        });
     });
-  }
-  
-  document.addEventListener("DOMContentLoaded", function () {
+}
+
+document.addEventListener("DOMContentLoaded", function () {
     if (typeof initHotspots === "function") initHotspots();
-  });
-  
+});

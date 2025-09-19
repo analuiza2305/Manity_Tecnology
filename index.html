@@ -182,12 +182,13 @@
         </div>
     </header>
 
-    <div class="page-wrapper">
-        <main>
+    <div id="reading-mask-overlay">
+        <div class="highlight-window"></div>
+    </div>
 
-            <div id="reading-mask-overlay">
-                <div class="highlight-window"></div>
-            </div>
+    <div class="page-wrapper">
+        
+        <main>
             <section class="hero">
                 <div class="container">
                     <div class="hero-content">
@@ -291,19 +292,21 @@
             </div>
         </footer>
 
-        <div vw class="enabled">
-            <div vw-access-button class="active"></div>
-            <div vw-plugin-wrapper>
-                <div class="vw-plugin-top-wrapper"></div>
-            </div>
-        </div>
-
-        <script type="module" src="js/models.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-        <script src="js/main.js"></script>
-        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-        <script src="js/vlibras.js"></script>
     </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/models.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script src="js/vlibras.js"></script>
+
 </body>
 
 </html>

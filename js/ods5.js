@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
     loader.load(
         "./models/ods5.ply",
         (geometry) => {
-            console.log("✅ ODS5 PLY carregado");
+            console.log("ODS5 PLY carregado");
 
             geometry.computeVertexNormals();
 
@@ -81,7 +81,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         },
         undefined,
-        (err) => console.error("❌ Erro ao carregar ODS5 PLY:", err)
+        (err) => console.error("Erro ao carregar ODS5 PLY:", err)
     );
 
     window.addEventListener("resize", () => {

@@ -9,22 +9,21 @@
 
     <script>
         (function () {
-            let savedTheme = localStorage.getItem('theme');
-            if (!savedTheme) {
-                savedTheme = 'light';
-                localStorage.setItem('theme', savedTheme);
-            }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const applyTheme = () => {
+                document.body.classList.remove('light-mode', 'dark-mode');
+                document.body.classList.add(savedTheme + '-mode');
+            };
 
-            document.body.classList.add(savedTheme + "-mode");
+            // Se body já existir, aplica; se não, espera o DOMContentLoaded
+            if (document.body) applyTheme();
+            else document.addEventListener('DOMContentLoaded', applyTheme);
 
-            let savedLang = localStorage.getItem('lang');
-            if (!savedLang) {
-                savedLang = 'pt';
-                localStorage.setItem('lang', savedLang);
-            }
-            document.documentElement.setAttribute("lang", savedLang);
+            const savedLang = localStorage.getItem('lang') || 'pt';
+            document.documentElement.setAttribute('lang', savedLang);
         })();
     </script>
+
 
     <link rel="icon" href="img/image_copy-removebg-preview.svg" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="img/image_copy-removebg-preview.svg" sizes="512x512">
@@ -173,95 +172,91 @@
         <div class="highlight-window"></div>
     </div>
 
-    <div class="page-wrapper">
-
-        <main>
-            <section class="projects-hero">
-                <div class="container">
-                    <h1>Nossos Projetos</h1>
-                    <p class="projects-description">Veja nosso principal projeto, que estamos trabalhando no TCC! </p>
-            </section>
-
-            <section class="projects-grid">
-                <div class="container">
-                    <div class="project-card main-project-card">
-                        <div class="project-image">
-                            <img src="img/agrsim.png" alt="Exibição do Projeto EloMaterno" width="900px">
-                        </div>
-                        <div class="project-content">
-                            <div class="project-header">
-                                <h2>Elo Materno</h2>
-                                <span class="project-tag">Em andamento</span>
-                            </div>
-                            <p>O projeto consiste em um hub digital voltado para mães solo e pais em situação de
-                                vulnerabilidade, com o objetivo de oferecer suporte, visibilidade e conexão com recursos
-                                que
-                                possam facilitar sua vida cotidiana. A plataforma busca ser um espaço seguro, acessível
-                                e
-                                prático, permitindo que os usuários publiquem necessidades, compartilhem experiências,
-                                encontrem oportunidades de apoio (como doações, serviços comunitários, cursos ou até
-                                empregos) e construam uma rede de solidariedade.</p>
-                            <a href="https://elomaterno.netlify.app/" class="btn-secondary">Saiba Mais <i
-                                    class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="cta">
-                <div class="container">
-                    <h2>Tem um projeto em mente?</h2>
-                    <p>Vamos transformar sua ideia em realidade digital. Entre em contato conosco para uma consulta
-                        gratuita.</p>
-                    <a href="contato.html" class="btn-primary">Fale Conosco</a>
-                </div>
-            </section>
-        </main>
-
-        <footer>
+    <main>
+        <section class="projects-hero">
             <div class="container">
-                <div class="footer-content">
-                    <div class="footer-logo">
-                        <div class="logo-icon"><img src="img/image_copy-removebg-preview.svg"
-                                alt="logo manity Technology">
-                        </div>
-                        <span>Manity Technology</span>
+                <h1>Nossos Projetos</h1>
+                <p class="projects-description">Veja nosso principal projeto, que estamos trabalhando no TCC! </p>
+        </section>
+
+        <section class="projects-grid">
+            <div class="container">
+                <div class="project-card main-project-card">
+                    <div class="project-image">
+                        <img src="img/agrsim.png" alt="Exibição do Projeto EloMaterno" width="900px">
                     </div>
-                    <div class="footer-links">
-                        <div class="footer-column">
-                            <h4>Navegação</h4>
-                            <ul>
-                                <li><a href="index.html">Início</a></li>
-                                <li><a href="sobre.html">Sobre Nós</a></li>
-                                <li><a href="projetos.html">Projetos</a></li>
-                                <li><a href="contato.html">Contato</a></li>
-                            </ul>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h2>Elo Materno</h2>
+                            <span class="project-tag">Em andamento</span>
                         </div>
-                        <div class="footer-column">
-                            <h4>Contato</h4>
-                            <ul>
-                                <li><i class="fas fa-envelope"></i> contato@manity.tech</li>
-                                <li><i class="fas fa-phone"></i> +55 (11) 99999-9999</li>
-                                <li><i class="fas fa-map-marker-alt"></i> Brasil</li>
-                            </ul>
-                        </div>
-                        <div class="footer-column">
-                            <h4>Redes Sociais</h4>
-                            <div class="social-icons">
-                                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </div>
+                        <p>O projeto consiste em um hub digital voltado para mães solo e pais em situação de
+                            vulnerabilidade, com o objetivo de oferecer suporte, visibilidade e conexão com recursos
+                            que
+                            possam facilitar sua vida cotidiana. A plataforma busca ser um espaço seguro, acessível
+                            e
+                            prático, permitindo que os usuários publiquem necessidades, compartilhem experiências,
+                            encontrem oportunidades de apoio (como doações, serviços comunitários, cursos ou até
+                            empregos) e construam uma rede de solidariedade.</p>
+                        <a href="https://elomaterno.netlify.app/" class="btn-secondary">Saiba Mais <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2025 Manity Technology. Todos os direitos reservados.</p>
                 </div>
             </div>
-        </footer>
-    </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <h2>Tem um projeto em mente?</h2>
+                <p>Vamos transformar sua ideia em realidade digital. Entre em contato conosco para uma consulta
+                    gratuita.</p>
+                <a href="contato.html" class="btn-primary">Fale Conosco</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-icon"><img src="img/image_copy-removebg-preview.svg" alt="logo manity Technology">
+                    </div>
+                    <span>Manity Technology</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navegação</h4>
+                        <ul>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="sobre.html">Sobre Nós</a></li>
+                            <li><a href="projetos.html">Projetos</a></li>
+                            <li><a href="contato.html">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contato</h4>
+                        <ul>
+                            <li><i class="fas fa-envelope"></i> contato@manity.tech</li>
+                            <li><i class="fas fa-phone"></i> +55 (11) 99999-9999</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Brasil</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Redes Sociais</h4>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Manity Technology. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -274,7 +269,7 @@
     <script src="js/main.js"></script>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script src="js/vlibras.js"></script>
-    
+
 </body>
 
 </html>
